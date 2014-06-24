@@ -32,7 +32,7 @@ public class AudioReceiver {
 		     * Byte size 4000 will produce ~ 0.18 seconds of lag. Voice slightly more broken then 9728.
 		     */
 
-		    byte[] receiveData = new byte[24000];
+		    byte[] receiveData = new byte[4000];
 		    AudioPacket packet, lastPacket;
 		    lastPacket = packet = null;
 	
