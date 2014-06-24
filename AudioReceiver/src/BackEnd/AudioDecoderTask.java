@@ -23,9 +23,8 @@ public class AudioDecoderTask implements Runnable {
 		        sourceDataLine.open(packet.format);
 
 		        FloatControl volumeControl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN);
-		        volumeControl.setValue(100.0f);
+		        volumeControl.setValue(6f);
 
-		        sourceDataLine.start();
 		        sourceDataLine.open(packet.format);
 
 		        sourceDataLine.start();

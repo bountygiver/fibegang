@@ -32,14 +32,16 @@ public class AudioReceiver {
 		     * Byte size 4000 will produce ~ 0.18 seconds of lag. Voice slightly more broken then 9728.
 		     */
 
-		    byte[] receiveData = new byte[4000];
-		    AudioPacket packet;
+		    byte[] receiveData = new byte[24000];
+		    AudioPacket packet, lastPacket;
+		    lastPacket = packet = null;
 	
-		    AudioFormat format = new AudioFormat(44100, 16, 1, true, false);
-	        ExecutorService outputThread = Executors.newFixedThreadPool(1);
+		    AudioFormat format = new AudioFormat(8000, 16, 1, true, false);
+	        ExecutorService outputThread = Executors.newCachedThreadPool();
 	
 		    boolean status = true;
 			while (status  == true) {
+				if (packet != null) lastPacket = packet;
 				 packet = new AudioPacket();
 		        DatagramPacket receivePacket = new DatagramPacket(receiveData,
 		                receiveData.length);
@@ -53,8 +55,12 @@ public class AudioReceiver {
 		        packet.codecStream = new AudioInputStream(baiss, format, receivePacket.getLength());
 		        packet.dataBytes = receivePacket.getData();
 		        packet.format = format;
-		        AudioDecoderTask task = new AudioDecoderTask(packet);
-		        outputThread.submit(task);
+		        System.out.println("Data received! " + receiveData.length);
+		        if (lastPacket != null) {
+		        	AudioDecoderTask task = new AudioDecoderTask(lastPacket);
+		        	outputThread.submit(task);
+		        	//task.run();
+		        }
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
