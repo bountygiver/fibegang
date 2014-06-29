@@ -1,2 +1,1 @@
-fibegang
-========
+The Fibe Project
