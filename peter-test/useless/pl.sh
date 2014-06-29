@@ -1,0 +1,1 @@
+vlc --demux=rawaud --rawaud-channels=1 --rawaud-samplerate 44100 *.pcm

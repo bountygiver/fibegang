@@ -1,0 +1,61 @@
+
+while 1:
+	#data, addr = sock.recvfrom(4096)
+	#print(len(data))
+	#audin.write(data)
+	data = audin.read(READ_SIZE)
+	toffset += READ_SIZE/SAMPLE_RATE
+	#if random.random() > 0.1:
+	retry = 0
+	#while audin.obufcount() < 16000 and retry < 20:
+	#	#print(audin.obufcount())
+	#	audin.write(bytes(round(127+next(sineiter)*127) for i in range(800)))
+	#	retry = retry + 1
+	fftdata = fft.fft([(i - 127.5)/128 for i in data])
+	fftdata = fftdata[:len(fftdata)//2] # no reason to keep the others
+	fftdata = [abs(v) for v in fftdata]
+	fftidx  = [i*SAMPLE_RATE/READ_SIZE for i in range(len(fftdata))]
+	#reg = reversed(sorted(((abs(j), i) for i,j in enumerate(fftdata) if i != 0)))
+	#for j, i in firstn(reg,5):
+	#	print("%04d:%6.3f"%(i*(SAMPLE_RATE//READ_SIZE*2), abs(j)), end="  ")
+	#print()
+	#sys.stdout.flush()
+	#fftdata = fftdata[:MAX_FREQ]
+	#fftindex = [i*(SAMPLE_RATE//(READ_SIZE*2)) for i in range(len(fftdata))]
+	#fftdatas = [abs(v) for i,v in enumerate(fftdata)]
+	#partlen = len(fftdata)//DRAW_POINTS
+	#fftindex = [sum(fftindex[j] for j in range(partlen*i,partlen*(i+1)))/partlen for i in range(DRAW_POINTS)]
+	#fftdatas = [sum(fftdatas[j] for j in range(partlen*i,partlen*(i+1)))/partlen for i in range(DRAW_POINTS)]
+	#print(fftindex)
+	fftdata = fftdata[20*READ_SIZE//SAMPLE_RATE:MAX_FREQ*READ_SIZE//SAMPLE_RATE]
+	fftidx = fftidx[20*READ_SIZE//SAMPLE_RATE:MAX_FREQ*READ_SIZE//SAMPLE_RATE]
+	
+	fftdata = list(map(abs, fftdata))
+	
+	if len(fftdata) >  DRAW_POINTS:
+		partlen = len(fftdata)//DRAW_POINTS
+		fftindex = [sum(fftidx[j] for j in range(partlen*i,partlen*(i+1)))/partlen for i in range(DRAW_POINTS)]
+		fftdatas = [sum(fftdata[j] for j in range(partlen*i,partlen*(i+1)))/partlen for i in range(DRAW_POINTS)]
+	else:
+		fftindex = fftidx
+		fftdatas = fftdata
+	dDRAW_POINTS = len(fftindex)
+	
+	dpartlen = len(data)//dDRAW_POINTS
+	ndatas = [sum(data[j] for j in range(dpartlen*i,dpartlen*(i+1)))/dpartlen for i in range(dDRAW_POINTS)]
+	ndatas = [0,0,0] + ndatas
+	ndatas = [i/16 for i in ndatas]
+	
+	
+	fftindex = [0, 0.1, 0.2] + fftindex
+	fftdatas = [0, 0, fftdatas[0]] + fftdatas
+	fftdatas2 = [20*math.log10(v+0.00001) for v in fftdatas]
+	#fftdatas = [v for v in fftdatas]
+	if time.time() - tbegin - toffset < 3 * READ_SIZE/SAMPLE_RATE:
+		pyplot.clf()
+		pyplot.plot(fftindex, fftdatas)
+		#pyplot.plot(fftindex, ndatas)
+		#pyplot.plot(fftindex, fftdatas2)
+		pyplot.draw()
+		pyplot.pause(0.0001)
+	#print(" ".join("%X"%data[i*40] for i in range(20)))
