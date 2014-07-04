@@ -72,3 +72,81 @@ create audio queue
 		"message"  : $(message) if fail
 		"payload"  : {} if success
 	}
+
+audio enqueue
+	> {
+		"sessionid"  : $(login_session),
+		"path"       : [$groupname, $audio],
+		"request"    : "ping" / "enqueue",
+		"identity"   : $(gen_random()),
+		"sessionkey" : $(sessionkey),
+		"payload"    : {
+			"tags" : [],
+			"time" : $(ts)
+		}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+	! {
+		"identity" : $(waitpacket.identity),
+		"status"   : "notify",
+		"type"     : "enqueue",
+		"payload"  : {
+			"userid"   : $userid,
+			"username" : $username,
+			"tags"     : [],
+			"time"     : $(ts)
+		}
+	}
+
+audio cancel::user
+	> {
+		"sessionid"  : $(login_session),
+		"path"       : [$groupname, $audio],
+		"request"    : "cancel",
+		"identity"   : $(gen_random()),
+		"sessionkey" : $(sessionkey),
+		"payload"    : {}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+	! {
+		"identity" : $(waitpacket.identity),
+		"status"   : "notify",
+		"type"     : "cancel",
+		"payload"  : {
+			"userid" : $userid
+		}
+	}
+
+audio cancel::prof
+	> {
+		"sessionid"  : $(login_session),
+		"path"       : [$groupname, $audio],
+		"request"    : "cancel",
+		"identity"   : $(gen_random()),
+		"sessionkey" : $(sessionkey),
+		"payload"    : {
+			"target-user" : $target_uid
+		}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+	! {
+		"identity" : $(waitpacket.identity),
+		"status"   : "notify",
+		"type"     : "cancel",
+		"payload"  : {}
+	}
