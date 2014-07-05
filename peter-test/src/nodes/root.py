@@ -1,79 +1,61 @@
 from . import node
 import json
 import sessions.user
+from utils.json import fetch_json, store_json
 from . import group
 from . import audio
 
-def fetch_json(filename):
-	try:
-		return json.loads(open(filename).read())
-	except Exception:
-		return {}
-
-def store_json(filename, obj):
-	open(filename,"w").write(json.dumps(obj))
-
-def json_data(packet, required_attrs):
-	if 'json' not in packet:
-		return None# this is not standard format, so ignore this packet
-	data = packet['json']
-	l = []
-	for i in required_attrs:
-		if i in data:
-			l.append(data[i])
-		else:
-			return None
-	return l
-
-def login(packet, hub, session, node):
-	print("on login")
-	data = json_data(packet,('username', 'password', 'sessionkey'))
-	if data == None: return # this is not standard format, so ignore this packet
+def login(packet, hub):
+	session, node = packet.session, packet.node
+	data = json_data(packet.payload,('username', 'password', 'sessionkey'))
+	if data == None:
+		return hub.ack("error", "packet format?")
+	
 	username, password, sessionkey = data
 
 	passwds = fetch_json("data/passwd")
 	if username not in passwds:
-		return hub.ack(packet, 'error', 'username not found')
+		return hub.ack(packet, 'fail', 'username not found')
 	
 	if passwds[username]['password'] != password:
-		return hub.ack(packet, 'error', 'password mismatch')
+		return hub.ack(packet, 'fail', 'password mismatch')
 	
 	userid = passwds[username]['userid']
 	
 	usession = sessions.user.Session(userid = userid, node = node, auth = (lambda x:x['sessionkey']==sessionkey))
-	hub.session_manager.manage(usession)
+	hub.sessions.manage(usession)
 	
-	return hub.ack(packet, 'success', {"sessionid":usession.sessionid})
+	return hub.ack(packet, 'success', {"payload":{"sessionid":usession.sessionid}})
 
-def regist(packet, hub, session, node):
-	data = json_data(packet,('username', 'password'))
-	if data == None: return # this is not standard format, so ignore this packet
+def regist(packet, hub):
+	data = json_data(packet.payload,('username', 'password'))
+	if data == None:
+		return hub.ack("error", "packet format?")
 	username, password = data
 
 	passwds = fetch_json("data/passwd")
 
 	if username in passwds:
-		return hub.ack(packet, 'error', 'username can not be used')
+		return hub.ack(packet, 'fail', 'username can not be used')
 	
 	uid = len(passwds)
 	passwds[username] = {"password":password,"userid":uid}
 	store_json("data/passwd", passwds)
 
-	return hub.ack(packet, 'success', '')
+	return hub.ack(packet, 'success', {})
 
-def create_group(packet, hub, session, node):
-	print("> create group")
-	data = json_data(packet,('groupname',))
-	print(data)
-	if data == None: return # this is not standard format, so ignore this packet
+def create_group(packet, hub):
+	data = json_data(packet.payload,('name',))
+	if data == None:
+		return hub.ack("error", "packet format?")
 	groupname = data[0]
 	
 	# assume group name is in a good form
-	if node.child_node(groupname) == None:
-		node.add_child(groupname, group.Node())
-		return hub.ack(packet, 'success', 'group created')
+	if packet.node.child_node(groupname) == None:
+		packet.node.add_child(groupname, group.Node())
+		return hub.ack(packet, 'success', {})
 	else:
-		return hub.ack(packet, 'error', 'group already existed')
+		return hub.ack(packet, 'fail', 'group already existed')
 
 # this is not a class
 def Node():

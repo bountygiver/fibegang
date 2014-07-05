@@ -9,53 +9,67 @@ class Node(node.Node):
 		self.queue    = {}
 		self.sessions = {}
 		self.add_function('ping',   self.ping)
+		self.add_function('enqueue',self.ping)
 		self.add_function('cancel', self.cancel)
 		self.add_function('permit', self.permit)
-		self.add_function('audio-transmit-a0000', self.transmit)
+		self.add_function('audio-transmit-a000', self.transmit)
 		self.dest = None
+		self.dest_identity = None
 		self.pure_pcm = False
 
-	def ping(self, packet, hub, session, node):
+	def ping(self, packet, hub):
 		# TODO need to check permission
 		self.queue[session.userid] = {
-			'info'    : packet['payload'],
-			'addr'    : packet['addr'],
+			'info'    : packet.payload,
+			'addr'    : packet.addr,
+			'identity': packet.identity,
 			'session' : None
 		}
-		hub.ack(packet, 'success', '')
-		hub.send(self.dest, {"status":"ping", "userid":session.userid, "text":packet['json']["text"]})
+		hub.ack(packet, 'success', {})
+		hub.notify4a(self.dest, 'enqueue', self.dest_identity, {
+			"userid"   : packet.session.userid,
+			"usedname" : "undefined",
+			"tags" : packet.payload["tags"],
+			"time" : packet.payload["time"]
+			})
 
-	def cancel(self, packet, hub, session, node):
-		if 'target_user' in packet['json']:
-			del self.queue[packet['json']['target-user']]
-			hub.send(self.queue[packet['json']['target-user']]['addr'], {"status":"rejection"})
+	def cancel(self, packet, hub):
+		if 'target_user' in packet.payload:
+			user = self.queue[packet.payload['target-user']]
+			del self.queue[packet.payload['target-user']]
+			hub.notify4a(user['addr'], 'cancel', user['identity'], {})
 		else:
 			del self.queue[session.userid]
-			hub.send(self.dest, {"status":"cancel"})
+			hub.notify4a(self.dest, 'cancel', self.dest_identity, {
+				"userid" : session.userid
+				})
 		hub.ack(packet,'success', '')
 
-	def permit(self, packet, hub, session, node):
-		if 'pcm' in packet['json'] and packet['json']['pcm'] == 'pure':
+	def permit(self, packet, hub):
+		if 'pcm' in packet.payload and packet.payload['pcm'] == 'pure':
 			self.pure_pcm = True
 		
-		self.dest = packet['addr']
+		self.dest          = packet.addr
+		self.dest_identity = packet.identity
 		
 		audsession = sessions.session.Session(node=self)
 		hub.session_manager.manage(audsession)
-		self.sessions[audsession.sessionid] = packet['json']['target-user']
-		user = self.queue[packet['json']['target-user']]
+		
+		self.sessions[audsession.sessionid] = packet.payload['target-user']
+		
+		user = self.queue[packet.payload['target-user']]
 		user['session'] = audsession.sessionid
 		
 		sessionid = audsession.sessionid
 		
-		hub.ack(packet, 'success', {"session":ssionid})
-		hub.send(user['addr'], '{"status":"permit","session":%d}'%sessionid)
+		hub.ack(packet, 'success', {})
+		hub.notify4a(user['addr'], 'permit', user['identity'],{"session":ssionid})
 
-	def transmit(self, packet, hub, session, node):
+	def transmit(self, packet, hub):
 		if self.pure_pcm:
-			payload = packet['payload']
+			payload = packet.payload
 		else:
-			payload = b'a000' + b' '*8 + packet['payload']
+			payload = b'a000' + b' '*8 + packet.payload
 		
-		if packet['sessionid'] in self.sessions:
+		if packet.sessionid in self.sessions:
 			hub.send(self.dest, payload)

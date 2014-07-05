@@ -1,0 +1,318 @@
+ 
+Python 3.4.0 (default, Apr 27 2014, 23:33:09) 
+[GCC 4.8.2 20140206 (prerelease)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> dir(set)
+['__and__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__iand__', '__init__', '__ior__', '__isub__', '__iter__', '__ixor__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__or__', '__rand__', '__reduce__', '__reduce_ex__', '__repr__', '__ror__', '__rsub__', '__rxor__', '__setattr__', '__sizeof__', '__str__', '__sub__', '__subclasshook__', '__xor__', 'add', 'clear', 'copy', 'difference', 'difference_update', 'discard', 'intersection', 'intersection_update', 'isdisjoint', 'issubset', 'issuperset', 'pop', 'remove', 'symmetric_difference', 'symmetric_difference_update', 'union', 'update']
+>>> import socket
+>>> sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+>>> sock.sendto('',('', 56789))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'str' does not support the buffer interface
+>>> sock.sendto(b'',('', 56789))
+0
+>>> sock.sendto(b'',('', 56789))
+0
+>>> sock.sendto(b'',('', 56789))
+0
+>>> sock.sendto(b'a000',('', 56789))
+4
+>>> sock.sendto(b'a000',('', 56789))
+4
+>>> sock.sendto(b'a000',('', 56789))
+4
+>>> sock.sendto(b'a000',('', 56789))
+4
+>>> sock.sendto(b'a000000',('', 56789))
+7
+>>> sock.sendto(b'{',('', 56789))
+1
+>>> sock.sendto(b'{',('', 56789))
+1
+>>> sock.sendto(b'{}',('', 56789))
+2
+>>> sock.sendto(b'{}',('', 56789))
+2
+>>> sock.sendto(b'{',('', 56789))
+1
+>>> sock.sendto(b'a000',('', 56789))
+4
+>>> sock.sendto(b'a0000000000000000',('', 56789))
+17
+>>> sock.sendto(b'a0000000000000000',('', 56789))
+17
+>>> sock.sendto(b'a0000000000000000',('', 56789))
+17
+>>> sock.sendto(b'a000\0\0\0\00000000',('', 56789))
+13
+>>> sock.sendto(b'a000\0\0\0\00000000',('', 56789))
+13
+>>> 
+KeyboardInterrupt
+>>> sock.sendto(b'a000\0\0\0\00000000',('', 56789))
+13
+>>> sock.sendto(b'a000\0\0\0\00000000',('', 56789))
+13
+>>> sock.sendto(b'a000\0\0\0\00000000',('', 56789))
+13
+>>> sock.sendto(b'a000\0\0\0\00000000',('', 56789))
+13
+>>> sock.sendto(b'a000\0\0\0\00000000',('', 56789))
+13
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"regist", "identity":0}',('', 56789))
+60
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> 
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0}',('', 56789))
+59
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.recv(100)
+b'{"status": "error", "data": "username not found"}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"regist", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+126
+>>> sock.recv(100)
+b'{"status": "success", "data": ""}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.recv(100)
+b'{"sessionid": [0], "status": "success"}'
+>>> sock.recv(100)
+b'{"sessionid": [0], "status": "success"}'
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.recv(100)
+b'{"sessionid": [0], "status": "success"}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> 
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> 
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.recv(100)
+b'{"sessionid": [0], "status": "success"}'
+>>> sock.recv(100)
+b'{"status": "success", "sessionid": [0]}'
+>>> sock.recv(100)
+b'{"sessionid": [0], "status": "success"}'
+>>> sock.recv(100)
+b'{"status": "success", "sessionid": 0}'
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"login", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+125
+>>> sock.recv(100)
+b'{"status": "success", "sessionid": 716049005}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"regist", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+126
+>>> sock.recv(100)
+b'{"status": "error", "data": "username can not be used"}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "username":"me","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+132
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+137
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":['CSC000'], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+  File "<stdin>", line 1
+    sock.sendto(b'{"sessionid":0, "path":['CSC000'], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+                                                ^
+SyntaxError: invalid syntax
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC000"], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+145
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC000"], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+145
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC000"], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+145
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+137
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+137
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+137
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+137
+>>> 
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+137
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+137
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+137
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"ls", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+127
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+137
+>>> sock.recv(100)
+b'{"data": "group created", "status": "success"}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"ls", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+127
+>>> sock.recv(100)
+b'{"CSC000": "Node", "status": "default"}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.recv(100)
+b'{"data": "group created", "status": "success"}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"ls", "identity":0, "groupname":"CSC000","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+127
+>>> sock.recv(100)
+b'{"CSC0001": "Node", "CSC000": "Node", "status": "default"}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.recv(100)
+b'{"data": "group already existed", "status": "error"}'
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.recv(100)
+b'{"data": "group created", "status": "success"}'
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001"], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+147
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001"], "request":"create_audio", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001"], "request":"create_audio", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001"], "request":"create_audio", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001"], "request":"create_audio", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001"], "request":"create_audio", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001"], "request":"ls", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+128
+>>> sock.recv(100)
+b'{"status": "success", "data": "group created"}'
+>>> sock.recv(100)
+b'{"data": "group created", "status": "success"}'
+>>> sock.recv(100)
+b'{"status": "success", "data": "group created"}'
+>>> sock.recv(100)
+b'{"status": "success", "data": "group created"}'
+>>> sock.recv(100)
+b'{"list": {"mic": "Node"}, "status": "default"}'
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001","mic"], "request":"ping", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+136
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001","mic"], "request":"ping", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+136
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001","mic"], "request":"ping", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+136
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001","mic"], "request":"ping", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+136
+>>> sock.sendto(b'{"sessionid":0, "path":["CSC0001","mic"], "request":"ping", "identity":0, "name":"mic","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+136
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "groupname":"CSC0001","password":"stupid","sessionkey":"this is a key"}',('', 56789))
+138
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "payload":{"groupname":"CSC0001"},"sessionkey":"this is a key"}',('', 56789))
+130
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "payload":{"groupname":"CSC0001"},"sessionkey":"this is a key"}',('', 56789))
+130
+>>> sock.recv(100)
+^CTraceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+KeyboardInterrupt
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "payload":{"groupname":"CSC0001"},"sessionkey":"this is a key"}',('', 56789))
+130
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "payload":{"groupname":"CSC0001"},"sessionkey":"this is a key"}',('', 56789))
+130
+>>> sock.sendto(b'{"sessionid":0, "path":[], "request":"create_group", "identity":0, "payload":{"groupname":"CSC0001"},"sessionkey":"this is a key"}',('', 56789))
+130
+>>> sock.recv(100)
+b'{"data": "group created", "status": "success"}'
+>>> 
