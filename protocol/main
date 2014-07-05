@@ -58,7 +58,7 @@ create group
 create audio queue
 	> {
 		"sessionid"  : $(login_session),
-		"path"       : [],
+		"path"       : [$groupname],
 		"request"    : "create_audio_queue",
 		"identity"   : $(gen_random()),
 		"sessionkey" : $(sessionkey),
