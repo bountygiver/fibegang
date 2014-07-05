@@ -1,0 +1,191 @@
+regist
+	> {
+		"sessionid"  : 0,
+		"path"       : [],
+		"request"    : "regist",
+		"identity"   : $(gen_random()),
+		"sessionkey" : "",
+		"payload"    : {
+			"username"   : $username,
+			"password"   : $password
+		}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+
+login
+	> {
+		"sessionid"  : 0,
+		"path"       : [],
+		"request"    : "login",
+		"identity"   : $(gen_random()),
+		"sessionkey" : "",
+		"payload"    : {
+			"username"   : $username,
+			"password"   : $password,
+			"sessionkey" : $(gen_sessionkey())
+		}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {"sessionid":$(sessionid)} if success
+	}
+
+create group
+	> {
+		"sessionid"  : $(login_session),
+		"path"       : [],
+		"request"    : "create_group",
+		"identity"   : $(gen_random()),
+		"sessionkey" : $(sessionkey),
+		"payload"    : {
+			"name"  : $name
+		}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+
+create audio queue
+	> {
+		"sessionid"  : $(login_session),
+		"path"       : [$groupname],
+		"request"    : "create_audio_queue",
+		"identity"   : $(gen_random()),
+		"sessionkey" : $(sessionkey),
+		"payload"    : {
+			"name"  : $name
+		}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+
+audio enqueue
+	> {
+		"sessionid"  : $(login_session),
+		"path"       : [$groupname, $audio],
+		"request"    : "ping" / "enqueue",
+		"identity"   : $(gen_random()),
+		"sessionkey" : $(sessionkey),
+		"payload"    : {
+			"tags" : [],
+			"time" : $(ts)
+		}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+	! {
+		"identity" : $(waitpacket.identity),
+		"status"   : "notify",
+		"type"     : "enqueue",
+		"payload"  : {
+			"userid"   : $userid,
+			"username" : $username,
+			"tags"     : [],
+			"time"     : $(ts)
+		}
+	}
+
+audio cancel::user
+	> {
+		"sessionid"  : $(login_session),
+		"path"       : [$groupname, $audio],
+		"request"    : "cancel",
+		"identity"   : $(gen_random()),
+		"sessionkey" : $(sessionkey),
+		"payload"    : {}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+	! {
+		"identity" : $(waitpacket.identity),
+		"status"   : "notify",
+		"type"     : "cancel",
+		"payload"  : {
+			"userid" : $userid
+		}
+	}
+
+audio cancel::prof
+	> {
+		"sessionid"  : $(login_session),
+		"path"       : [$groupname, $audio],
+		"request"    : "cancel",
+		"identity"   : $(gen_random()),
+		"sessionkey" : $(sessionkey),
+		"payload"    : {
+			"target-user" : $target_uid
+		}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+	! {
+		"identity" : $(waitpacket.identity),
+		"status"   : "notify",
+		"type"     : "cancel",
+		"payload"  : {}
+	}
+
+audio permit /* send from future recv port */
+	> {
+		"sessionid"  : $(login_session),
+		"path"       : [$groupname, $audio],
+		"request"    : "permit",
+		"identity"   : $(gen_random()),
+		"sessionkey" : $(sessionkey),
+		"payload"    : {
+			"target-user" : $target_uid
+		}
+	}
+	< {
+		"identity" : $(packet.identity),
+		"status"   : "success" / "fail" / "error",
+		"message"  : $(message) if fail
+		"payload"  : {} if success
+	}
+	! {
+		"identity" : $(waitpacket.identity),
+		"status"   : "notify",
+		"type"     : "permit",
+		"payload"  : {"sessionid":sessionid}
+	}
+
+audio transmit {psudo}
+	> a000[audiosession id:4 byte][timestamp:4 byte]$binary
+	{
+		"sessionid"  : $(audiosession),
+		"path"       : /*prefix:[$groupname, $audio]*/ [],
+		"request"    : "audio-transmit-a000",
+		"identity"   : $(timestamp),
+		"sessionkey" : $(...),
+		"payload"    : $binary
+	}
+	< sometime {
+		"identity" : $(packet.identity),
+		"status"   : "ack"
+	}
