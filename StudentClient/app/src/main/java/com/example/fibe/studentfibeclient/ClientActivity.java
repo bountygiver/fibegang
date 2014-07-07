@@ -41,6 +41,7 @@ public class ClientActivity extends Activity {
     private TextView attempts;
     private Button login;
     private InetAddress serverAddr;
+    private JSONObject payload; // current packet in use
 //    private Button signup;
 
     private static final int SERVERPORT = 56789;
@@ -135,7 +136,7 @@ public class ClientActivity extends Activity {
                 int len = sock.getReceiveBufferSize();
                 String s = String.valueOf(buf);
                 try {
-                    JSONObject payload = new JSONObject(s);
+                    payload = new JSONObject(s);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -154,6 +155,52 @@ public class ClientActivity extends Activity {
         }
 
     }
+
+
+
+    // ************************ Direct Request ************************
+
+
+    /**
+     * @author      Vicky Bukta
+     * @return      null
+     *
+     *  Executes the appropriate method on incoming packet
+     */
+    public void incomingAction() throws JSONException {
+
+        String request = payload.get("request").toString();
+        // branch
+
+        if (request.equals("regist")){
+            //do stuff
+        }
+        else if (request.equals("login")){
+            //do stuff
+        }
+        else if (request.equals("create group")){
+            //do stuff
+        }
+        else if (request.equals("create audio group")){
+            //do stuff
+        }
+        else if (request.equals("audio enqueue")){
+            //do stuff
+        }
+        else if (request.equals("audio cancel")){
+            //do stuff
+        }
+        else if (request.equals("audio permit")){
+            //do stuff
+        }
+        else if (request.equals("audio transmit")){
+            //do stuff
+        }
+    }
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
