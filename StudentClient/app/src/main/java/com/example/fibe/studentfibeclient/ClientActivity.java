@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.JsonReader;
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,11 @@ import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,11 +40,13 @@ public class ClientActivity extends Activity {
     private EditText  password=null, ipText=null;
     private TextView attempts;
     private Button login;
+    private InetAddress serverAddr;
 //    private Button signup;
 
     private static final int SERVERPORT = 56789;
 
-    private Socket socket;
+//    private Socket socket;
+    private DatagramSocket clientSocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +68,14 @@ public class ClientActivity extends Activity {
 
                 @Override
                 public void onClick(View arg0) {
-                    new Thread(new ClientThread(ipText.getText().toString())).start();
+                    //new Thread(new ClientThread(ipText.getText().toString())).start();
 
                     try {
-                        PrintWriter out = new PrintWriter(new BufferedWriter(
-                                new OutputStreamWriter(socket.getOutputStream())),
-                                true);
-                        out.println("Begin packet transfer");
-                        out.println(createJSON().toString());
-                        out.println("End of packet transfer");
+                        serverAddr = InetAddress.getByName(ipText.getText().toString());
+                        clientSocket = new DatagramSocket();
+                        byte[] buf = createJSON().toString().getBytes();
+                        DatagramPacket dp = new DatagramPacket(buf, buf.length, serverAddr, SERVERPORT);
+                        new Thread(new ClientThread(clientSocket, dp)).start();
 
                         //out.println("SENT!");
                     } catch (UnknownHostException e) {
@@ -103,23 +111,39 @@ public class ClientActivity extends Activity {
     public void onConnect(View view) {
 
         EditText it = (EditText) findViewById(R.id.ip_field);
-        new Thread(new ClientThread(it.getText().toString())).start();
+        //new Thread(new ClientThread(it.getText().toString())).start();
     }
 
     class ClientThread implements Runnable {
-        String ip;
+        DatagramSocket sock;
+        DatagramPacket packet;
 
-        public ClientThread(String ip) {
-            this.ip = ip;
+        public ClientThread(DatagramSocket sock, DatagramPacket packet) {
+            this.sock = sock;
+            this.packet = packet;
         }
 
         @Override
         public void run() {
 
             try {
-                InetAddress serverAddr = InetAddress.getByName(ip);
+                sock.send(packet);
 
-                socket = new Socket(ip, SERVERPORT);
+                byte[] buf = new byte[4096];
+                DatagramPacket dp = new DatagramPacket(buf, 0);
+                sock.receive(dp);
+                int len = sock.getReceiveBufferSize();
+                String s = String.valueOf(buf);
+                try {
+                    JSONObject payload = new JSONObject(s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                clientSocket.disconnect();
+                clientSocket.close();
+
 
             } catch (UnknownHostException e1) {
                 e1.printStackTrace();
