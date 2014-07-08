@@ -18,7 +18,7 @@ public class JSOnCreation {
 
             Class c = Class.forName("JSOnCreation");
             Method[] method = c.getDeclaredMethods();
-            
+
             for (int i = 0; i < method.length; i++) {
                 methods += method[i].toString();
                 methods += ", ";
