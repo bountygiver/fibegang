@@ -4,10 +4,33 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by Victoria on 2014-07-07.
  */
 public class JSOnCreation {
+
+    public String discovery (){
+
+        String methods = "";
+        try {
+
+            Class c = Class.forName("JSOnCreation");
+            Method[] method = c.getDeclaredMethods();
+            
+            for (int i = 0; i < method.length; i++) {
+                methods += method[i].toString();
+                methods += ", ";
+
+            }
+        }
+        catch (Throwable e) {
+            System.err.println(e);
+            return "error";
+        }
+        return methods;
+    }
 
     // ************************ JSON CREATION ************************
 
