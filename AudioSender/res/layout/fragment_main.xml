@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:onClick="onStart"
         android:text="Start" />
 
     <Button
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/start_button"
         android:layout_below="@+id/start_button"
+        android:onClick="onStop"
         android:text="Stop" />
 
     <EditText

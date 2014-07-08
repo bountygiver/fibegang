@@ -7,34 +7,35 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.annotation.TargetApi;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.media.audiofx.AcousticEchoCanceler;
+import android.media.audiofx.NoiseSuppressor;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.os.Build;
 
 public class MainActivity extends ActionBarActivity {
 	
-	private Button startButton,stopButton;
-	private EditText ip_field;
+	public static Button startButton,stopButton;
+	public static EditText ip_field;
 
 	public byte[] buffer;
 	public static DatagramSocket socket;
 	private int port=50005;
 	AudioRecord recorder;
 
-	private int sampleRate = 8000;
+	private int sampleRate = 16000;
 	@SuppressWarnings("deprecation")
 	private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;    
 	private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;       
@@ -46,52 +47,46 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-	    startButton = (Button) findViewById (R.id.start_button);
-	    stopButton = (Button) findViewById (R.id.stop_button);
-	    ip_field = (EditText) findViewById (R.id.ip_field);
-
-	    startButton.setOnClickListener (startListener);
-	    stopButton.setOnClickListener (stopListener);
-
-	    minBufSize += 1024;
+	    //minBufSize += 1024;
 	    System.out.println("minBufSize: " + minBufSize);
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-	}
-	
-	private final OnClickListener stopListener = new OnClickListener() {
 
-	    @Override
-	    public void onClick(View arg0) {
+	}
+	    public void onStop(View arg0) {
 	    	if (status) {
 	                status = false;
+	                recorder.stop();
 	                recorder.release();
 	                Log.d("VS","Recorder released");
 	    	}
 	    }
-
-	};
-
-	private final OnClickListener startListener = new OnClickListener() {
-
-	    @Override
-	    public void onClick(View arg0) {
+	
+	    public void onStart(View arg0) {
 	    	if (status == false) {
+	    		ip_field = (EditText) findViewById(R.id.ip_field);
 	                status = true;
 	                startStreaming();   
 	    	}
 	    }
-
-	};
+	    
 
 	public void startStreaming() {
 
 
 	    Thread streamThread = new Thread(new Runnable() {
 
+	    	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	    	public void SupressAudio(AudioRecord ar) {
+
+	            int id = ar.getAudioSessionId();
+	            NoiseSuppressor.create(id);
+	            AcousticEchoCanceler.create(id);
+	    	}
+	    	
 	        @Override
 	        public void run() {
 	            try {
@@ -110,6 +105,8 @@ public class MainActivity extends ActionBarActivity {
 
 	                recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,sampleRate,channelConfig,audioFormat,minBufSize*2);
 	                Log.d("VS", "Recorder initialized");
+	                
+	                SupressAudio(recorder);
 
 	                recorder.startRecording();
 
@@ -118,18 +115,19 @@ public class MainActivity extends ActionBarActivity {
 
 
 	                    //reading data from MIC into buffer
-	                    minBufSize = recorder.read(buffer, 0, buffer.length);
+	                    minBufSize = recorder.read(buffer, 64, buffer.length - 64);
 
 	                    //putting buffer in the packet
 	                    packet = new DatagramPacket (buffer,buffer.length,destination,port);
 
-	                    socket.send(packet);
+	                    Thread senderPacket = new Thread(new PacketSender(socket, packet));
+	                    senderPacket.start();
 	                    System.out.println("BufferSize: " +minBufSize);
 
 
 	                }
 
-
+	                socket.disconnect();
 	                socket.close();
 	            } catch(UnknownHostException e) {
 	                Log.e("VS", "UnknownHostException");
@@ -142,6 +140,30 @@ public class MainActivity extends ActionBarActivity {
 	    });
 	    streamThread.start();
 	 }
+	
+	public static class PacketSender implements Runnable {
+		
+		DatagramSocket sock;
+		DatagramPacket pack;
+		
+		public PacketSender(DatagramSocket sock, DatagramPacket pack) {
+			this.sock = sock;
+			this.pack = pack;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			try {
+				sock.send(pack);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+                Log.e("VS", "IOException");
+			}
+		}
+		
+	}
 
 
 	@Override
@@ -177,6 +199,7 @@ public class MainActivity extends ActionBarActivity {
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_main, container,
 					false);
+			
 			return rootView;
 		}
 	}
