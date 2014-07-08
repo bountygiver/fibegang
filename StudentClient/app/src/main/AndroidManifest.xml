@@ -3,27 +3,37 @@
     package="com.example.fibe.studentfibeclient" >
 android:versionCode="1"
 android:versionName="1.0" >
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
 
-<uses-permission android:name="android.permission.INTERNET" >
-</uses-permission>
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
-</uses-permission>
-
-<application
-    android:allowBackup="true"
-    android:icon="@drawable/ic_launcher"
-    android:label="@string/app_name"
-    android:theme="@style/AppTheme" >
-    <activity
-        android:name=".ClientActivity"
-        android:label="@string/app_name" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-</application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SignupActivity"
+            android:label="@string/title_activity_signup" >
+        </activity>
+        <activity
+            android:name=".PickclassActivity"
+            android:label="@string/title_activity_pickclass" >
+        </activity>
+        <activity
+            android:name=".SpeakingActivity"
+            android:label="@string/title_activity_speaking" >
+        </activity>
+    </application>
 
 </manifest>

@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:text="@string/login_screen"
+        android:text="Sign Up"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -59,44 +59,13 @@
         android:ems="10"
         android:inputType="textPassword" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buttons"
+        android:text="Confirm"
+        android:onClick="Confirm"
+        android:id="@+id/confirm_button"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/password">
-
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Login"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="5dp"
-            android:layout_margin="5dp" />
-
-        <Button
-            android:id="@+id/signupButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="Signup"
-            android:text="@string/Signup"
-            android:layout_marginLeft="5dp"
-            android:layout_margin="5dp" />
-
-
-    </LinearLayout>
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ip_field"
-        android:hint="Put IP here"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -1,20 +1,12 @@
 package com.example.fibe.studentfibeclient;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.util.JsonReader;
-import android.util.Xml;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -25,40 +17,38 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
+
+import android.content.Intent;
 
 
-public class ClientActivity extends Activity {
+public class LoginActivity extends Activity {
 
     private EditText username=null;
     private EditText  password=null, ipText=null;
-    private TextView attempts;
     private Button login;
-    private InetAddress serverAddr;
 //    private Button signup;
+    private InetAddress serverAddr;
 
     private static final int SERVERPORT = 56789;
 
-//    private Socket socket;
     private DatagramSocket clientSocket;
+
+    public static LoginActivity thisActivity;
+    public JSONObject payload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        username = (EditText)findViewById(R.id.editText1);
-        password = (EditText)findViewById(R.id.editText2);
+        username = (EditText)findViewById(R.id.username_field);
+        password = (EditText)findViewById(R.id.password_field);
         ipText = (EditText) findViewById(R.id.ip_field);
 
-        login = (Button)findViewById(R.id.button1);
+        login = (Button)findViewById(R.id.loginButton);
 //        signup = (Button)findViewById(R.id.button2);
         login.setOnClickListener(loginConnectOnClickListener);
+        thisActivity = this;
     }
 
 
@@ -73,7 +63,7 @@ public class ClientActivity extends Activity {
                     try {
                         serverAddr = InetAddress.getByName(ipText.getText().toString());
                         clientSocket = new DatagramSocket();
-                        byte[] buf = createJSON().toString().getBytes();
+                        byte[] buf = createLoginJSON().toString().getBytes();
                         DatagramPacket dp = new DatagramPacket(buf, buf.length, serverAddr, SERVERPORT);
                         new Thread(new ClientThread(clientSocket, dp)).start();
 
@@ -88,7 +78,14 @@ public class ClientActivity extends Activity {
                 }
             };
 
-    public JSONObject createJSON () {
+
+    public void Signup (View view) {
+        Intent intent = new Intent(this, SignupActivity.class);
+        intent.putExtra("ip_server", serverAddr);
+        startActivity(intent);
+    }
+
+    public JSONObject createLoginJSON() {
         JSONObject object = new JSONObject();
         try {
             JSONArray path = new JSONArray();
@@ -108,12 +105,6 @@ public class ClientActivity extends Activity {
         return object;
     }
 
-    public void onConnect(View view) {
-
-        EditText it = (EditText) findViewById(R.id.ip_field);
-        //new Thread(new ClientThread(it.getText().toString())).start();
-    }
-
     class ClientThread implements Runnable {
         DatagramSocket sock;
         DatagramPacket packet;
@@ -130,12 +121,23 @@ public class ClientActivity extends Activity {
                 sock.send(packet);
 
                 byte[] buf = new byte[4096];
-                DatagramPacket dp = new DatagramPacket(buf, 0);
+                DatagramPacket dp = new DatagramPacket(buf, 4096);
                 sock.receive(dp);
+                buf = dp.getData();
                 int len = sock.getReceiveBufferSize();
-                String s = String.valueOf(buf);
+                final String payload_string = new String(buf);
                 try {
-                    JSONObject payload = new JSONObject(s);
+                    payload = new JSONObject(payload_string);
+
+                    if (payload.getString("status").equals("success")) {
+                        Intent new_intent = new Intent(thisActivity, PickclassActivity.class);
+                        new_intent.putExtra("payload", payload_string);
+                        new_intent.putExtra("ip_server", serverAddr);
+                        thisActivity.startActivity(new_intent);
+                        thisActivity.finish();
+                    } else {
+                        // Give error message
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -154,6 +156,8 @@ public class ClientActivity extends Activity {
         }
 
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
