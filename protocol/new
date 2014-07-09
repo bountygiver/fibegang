@@ -1,0 +1,176 @@
+PACKET SEND FROM CLIENT TO SERVER
+{
+	"sessionid"  : int,
+		the current session
+		- 0 or non-exist if not applicable
+	"sessionkey" : string,
+		a session specific key to authenticate the session
+		- 0 or non-exist if not applicable
+	"path"       : int or [string],
+		the path/node that should response request
+	"request"    : string,
+		the requested function
+	"identity"   : int,
+		a identifier that will tag the returing packet
+	"payload"    : {
+		... the actual payload
+	},
+	"sessionop"  : {...}
+		OPTIONAL session operations
+}
+PACKET SEND FROM SERVER TO CLIENT
+{
+	"identity" : int,
+		the "identity" of the packet replies to
+	"status"   : "success" / "notify" / "fail" / "error",
+		the status of operation
+	"message"  : $(message)
+		exist only if fail
+	"payload"  : {
+		... the returning payload
+	}
+		payload exists if success
+}
+
+
+== General fail message ==
+"Packet format not reconized"
+"Permission denied"
+
+== Nested node policy ==
+A regular node can be child of any group node
+A group node can only be child of one group
+
+===========================================================================
+Protocol content
+===========================================================================
+
+NODE::ANY
+
+	LIST::CHILDREN/ls
+		permission : depend on node
+		required nothing
+		return
+			$name : {"type":$node_type, "node":$nodeid}
+		fails
+			TODO
+
+NODE::AUTHENTICATION
+
+	REGIST/regist
+		permission : all
+		path : ["auth"]
+		required
+			username : string
+			password : string
+		return status only
+		fails
+			"Username already taken"
+			"Username not valid"
+
+	LOGIN/login
+		permission : all
+		path : ["auth"]
+		required
+			username   : string
+			password   : string
+			sessionkey : string
+				generated randomly
+		return
+			sessionid : int
+		fails
+			"Username/Password incorrect"
+			"Password mismatch"
+			"Username not found"
+
+NODE::GROUP
+
+	CREATE/create
+		permission : group admin
+		required
+			name : string
+				the name of the sub group
+			type : string
+				"group" / "audioqueue" / "survey" / "repo" / "enum" / "topiclist" / "announcement"
+		return status only
+	
+	REMOVE/remove
+		permission : (group owner) or (creator of sub group)
+		required
+			name : string
+				the name of the sub group
+		return status only
+
+NODE::ENUM/taglist
+	TODO
+
+NODE::TOPICLIST (is a NODE::ENUM)
+
+NODE::AUDIO
+
+	WAIT::QUEUE/queue_wait
+	WAIT::QUEUE/queue_unwait
+		permission : creator of audio queue
+		required nothing
+		return status only
+		will have notification later
+
+	ENQUEUE/ping
+		permission : any one who is in the parent group
+		required
+			tags : [string]
+			time : int(UTC time stamp)
+		return status only
+		notify
+			type   : "ping"
+			userid : int
+			name   : string
+			tags   : [string]
+			time   : int(UTC time stamp)
+
+	CANCEL::USER/cancel
+		permission : any one who is in the parent group
+		required nothing
+		return status only
+		notify
+			type   : "cancel"
+			userid : int
+
+	CANCEL::PROF/cancel
+		permission : any one who is in the parent group
+		required
+			target_user : int
+				targeted user id
+		return status only
+		notify
+			type   : "cancel"
+	
+	PERMIT/permit
+		permission : the owner
+		required
+			target_user : int
+				targeted user id
+		return status only
+		notify
+			type      : "permit"
+			sessionid : int
+
+	CHECK_PERMIT/check_permit
+		... /*not for now*/
+
+
+	{psudo}TRANSMIT/transmit...
+audio transmit 
+	> a000[audiosession id:4 byte][timestamp:4 byte]$binary
+	{
+		"sessionid"  : $(audiosession),
+		"path"       : /*prefix:[$groupname, $audio]*/ [],
+		"request"    : "audio-transmit-a000",
+		"identity"   : $(timestamp),
+		"sessionkey" : $(...),
+		"payload"    : $binary
+	}
+	< sometime {
+		"identity" : $(packet.identity),
+		"status"   : "ack"
+	}
