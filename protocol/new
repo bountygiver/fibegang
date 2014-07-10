@@ -108,8 +108,8 @@ NODE::TOPICLIST (is a NODE::ENUM)
 
 NODE::AUDIO
 
-	WAIT::QUEUE/queue_wait
-	WAIT::QUEUE/queue_unwait
+	WAIT::QUEUE/wait
+	WAIT::QUEUE/unwait
 		permission : creator of audio queue
 		required nothing
 		return status only
