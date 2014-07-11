@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FIBE</string>
+    <string name="action_settings">Settings</string>
+    <string name="qStatus">Join Queue</string>
+    <string name="qStatusB">Cancel Request<string>
+
+    <string-array name="tagList">
+        <item>ex1</item>
+        <item>ex2</item>
+        <item>ex3</item>
+        <item>ex4</item>
+    </string-array>
+
+</resources>

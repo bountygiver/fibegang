@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".QueueIn$PlaceholderFragment"
+    android:background="#272727">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textColor="#47C770"
+        android:textSize="23dp"
+        android:lineSpacingExtra="4dp"
+
+        android:text="Have a question?\nPlease pick a relative tags, then join the queue."/>
+
+    <ListView style="@style/TagListStyle"
+        android:id="@+id/tagsList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_above="@+id/queueButton"
+
+        android:entries="@array/tagList"
+        tools:listitem="@android:layout/simple_list_item_1"
+        android:choiceMode="multipleChoice"
+
+        />
+
+    <Button
+        android:id="@+id/queueButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#47C770"
+
+        android:text="Join Queue"
+        android:textColor="#ffffff"/>
+
+</RelativeLayout>
