@@ -24,6 +24,17 @@
 
     </style>
 
+    <!-- ClickerOption styles -->
+    <style name="clickerOption" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:background">#313131</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_marginTop">12dp</item>
+        </style>
+
     <!-- Colours styles -->
     <color name="pressed_color">#47C770</color>
     <color name="default_color">#313131</color>

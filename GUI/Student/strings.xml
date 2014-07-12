@@ -8,6 +8,11 @@
     <string name="getIt" translatable="false">&#10003;</string>
     <string name="talk" tasnslatable="false">&#9743;</string>
 
+    <string name="clickerQuestion">What is the upper bound for the worst case runtime for the SEARCH function of a hash table?</string>
+    <string name="optionA">A   O(n)</string>
+    <string name="optionB">B   O(lgn)</string>
+    <string name="optionC">C   O(n^2)</string>
+    <string name="optionD">D   O(n lg n)</string>
     <string-array name="tagList">
         <item>ex1</item>
         <item>ex2</item>
