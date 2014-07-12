@@ -6,6 +6,7 @@
     <string name="qStatus">Join Queue</string> // This needs to be changed
     <string name="dontGetIt" translatable="false">&#x2715;</string>
     <string name="getIt" translatable="false">&#10003;</string>
+    <string name="talk" tasnslatable="false">&#9743;</string>
 
     <string-array name="tagList">
         <item>ex1</item>
