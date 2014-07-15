@@ -113,8 +113,8 @@ public class Connector extends Observable {
 
     public boolean Send(Payload p) {
         try {
-            int identity = rand.nextInt();
-            while (identifierPool.contains(identity)) identity = rand.nextInt();
+            int identity = rand.nextInt(Integer.MAX_VALUE);
+            while (identifierPool.contains(identity)) identity = rand.nextInt(Integer.MAX_VALUE);
             p.identity = identity;
             identifierPool.add(identity);
             socket.send(p.getPacket(socket));
@@ -124,9 +124,24 @@ public class Connector extends Observable {
         return true;
     }
 
-    public ResponsePayload SendAndReceive(Payload p) throws IOException {
+    public ResponsePayload SendAndReceive(final Payload p) throws IOException {
         boolean sent = Send(p);
         if (sent) {
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(10000);
+                        ResponsePayload timeout = new ResponsePayload();
+                        timeout.status = "failed";
+                        timeout.message = "Connection timeout!";
+                        pendingRes.put(p.identity, timeout);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
             pendingRes.put(p.identity, null);
             while (pendingRes.get(p.identity) == null && pendingRes.containsKey(p.identity)) {
                 try {

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -30,6 +31,8 @@ public class TagsFragment extends Fragment implements AbsListView.OnItemClickLis
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    public Button btn_enqueue;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -76,13 +79,14 @@ public class TagsFragment extends Fragment implements AbsListView.OnItemClickLis
 
         // TODO: Change Adapter to display your content
         mAdapter = new ArrayAdapter<Tags.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, Tags.ITEMS);
+                R.layout.tag_item, R.id.txtToggleTag, Tags.ITEMS);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tags, container, false);
+        btn_enqueue = (Button) view.findViewById(R.id.btnEnqueue);
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);

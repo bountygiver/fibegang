@@ -1,7 +1,6 @@
 package com.fibe.fibestudentclient;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,18 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.fibe.fibestudentclient.R;
-
-import java.util.Arrays;
 import java.util.List;
 
 import BackEnd.RoomItem;
@@ -35,7 +27,7 @@ public class ClassSelectorActivity extends Activity {
         setContentView(R.layout.activity_class_selector);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment(), "class_list_tag")
+                    .add(R.id.container, new ClassSelectorFragment(), "class_list_tag")
                     .commit();
         }
     }
@@ -57,7 +49,7 @@ public class ClassSelectorActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.class_selector_refresh) {
-            PlaceholderFragment pf = (PlaceholderFragment) getFragmentManager()
+            ClassSelectorFragment pf = (ClassSelectorFragment) getFragmentManager()
                     .findFragmentByTag("class_list_tag");
             pf.refreshList();
         }
@@ -67,13 +59,13 @@ public class ClassSelectorActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class ClassSelectorFragment extends Fragment {
 
         public ListView classList;
         public ArrayAdapter<RoomItem> classListAdapter;
         private RefreshListTask mRefresfTask;
 
-        public PlaceholderFragment() {
+        public ClassSelectorFragment() {
         }
 
         @Override
@@ -110,7 +102,7 @@ public class ClassSelectorActivity extends Activity {
                             if (success) {
                                 List<RoomItem> fromColumns = MainActivity.client.getRoomAvailable();
                                 classListAdapter = new ArrayAdapter<RoomItem>(getActivity()
-                                        , android.R.layout.simple_list_item_1, fromColumns);
+                                        , R.layout.class_item, fromColumns);
                                 classList.setAdapter(classListAdapter);
                                 // Create a message handling object as an anonymous class.
                                 AdapterView.OnItemClickListener mMessageClickedHandler =

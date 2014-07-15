@@ -1,8 +1,44 @@
 <resources>
 
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme"
+        parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
     </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+        parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">#47C770</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <!-- TagListStyle styles -->
+    <style name="TagListStyle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:choiceMode">multipleChoice</item>
+        <item name="android:background">#313131</item>
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">-20sp</item>
+
+    </style>
+
+    <!-- ClickerOption styles -->
+    <style name="clickerOption" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:background">#313131</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_marginTop">12dp</item>
+    </style>
+
+    <!-- Colours styles -->
+    <color name="pressed_color">#47C770</color>
+    <color name="default_color">#313131</color>
+
 
 </resources>

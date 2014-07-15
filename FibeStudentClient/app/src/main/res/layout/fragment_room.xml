@@ -6,18 +6,23 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.fibe.fibestudentclient.RoomActivity$PlaceholderFragment"
+    tools:context="com.fibe.fibestudentclient.RoomActivity.RoomFragment"
     android:orientation="vertical"
     android:weightSum="1">
 
 
-    <fragment
+    <!--fragment
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:name="com.fibe.fibestudentclient.TagsFragment"
         android:id="@+id/fragment"
         tools:layout="@layout/fragment_tags"
-        android:layout_weight="0.87" />
+        android:layout_weight="0.87" /-->
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/roomListFrame"></FrameLayout>
 
     <Button
         android:layout_width="wrap_content"
