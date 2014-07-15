@@ -136,7 +136,7 @@ NODE::AUDIO
 			type   : "cancel"
 			userid : int
 
-	CANCEL::PROF/cancel
+	CANCEL::PROF/revoke
 		permission : any one who is in the parent group
 		required
 			target_user : int
