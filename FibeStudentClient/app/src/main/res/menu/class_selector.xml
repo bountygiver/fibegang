@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.fibe.fibestudentclient.ClassSelectorActivity" >
+    <item android:id="@+id/class_selector_refresh"
+        android:title="@string/class_selector_refresh"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+</menu>
