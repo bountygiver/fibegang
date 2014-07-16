@@ -14,7 +14,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 
-import com.fibe.fibestudentclient.dummy.Tags;
+import com.fibe.fibestudentclient.Items.Tags;
 
 /**
  * A fragment representing a list of Items.
@@ -78,7 +78,7 @@ public class TagsFragment extends Fragment implements AbsListView.OnItemClickLis
         }
 
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<Tags.DummyItem>(getActivity(),
+        mAdapter = new ArrayAdapter<Tags.TagItem>(getActivity(),
                 R.layout.tag_item, R.id.txtToggleTag, Tags.ITEMS);
     }
 

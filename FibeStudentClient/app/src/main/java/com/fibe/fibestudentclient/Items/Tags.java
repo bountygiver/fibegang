@@ -1,4 +1,4 @@
-package com.fibe.fibestudentclient.dummy;
+package com.fibe.fibestudentclient.Items;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,21 +16,21 @@ public class Tags {
     /**
      * An array of sample (dummy) items.
      */
-    public static List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static List<TagItem> ITEMS = new ArrayList<TagItem>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
+    public static Map<String, TagItem> ITEM_MAP = new HashMap<String, TagItem>();
 
     static {
         // Add 3 sample items.
-        addItem(new DummyItem("1", "Basic Tag 1"));
-        addItem(new DummyItem("2", "Question"));
-        addItem(new DummyItem("3", "Example"));
+        addItem(new TagItem("1", "Basic Tag 1"));
+        addItem(new TagItem("2", "Question"));
+        addItem(new TagItem("3", "Example"));
     }
 
-    private static void addItem(DummyItem item) {
+    private static void addItem(TagItem item) {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
     }
@@ -38,11 +38,11 @@ public class Tags {
     /**
      * A dummy item representing a piece of content.
      */
-    public static class DummyItem {
+    public static class TagItem {
         public String id;
         public String content;
 
-        public DummyItem(String id, String content) {
+        public TagItem(String id, String content) {
             this.id = id;
             this.content = content;
         }

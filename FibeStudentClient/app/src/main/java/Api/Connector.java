@@ -127,7 +127,7 @@ public class Connector extends Observable {
     public ResponsePayload SendAndReceive(final Payload p) throws IOException {
         boolean sent = Send(p);
         if (sent) {
-            new Thread(new Runnable() {
+            Thread t = new Thread(new Runnable() {
 
                 @Override
                 public void run() {
@@ -141,7 +141,8 @@ public class Connector extends Observable {
                         e.printStackTrace();
                     }
                 }
-            }).start();
+            });
+            t.start();
             pendingRes.put(p.identity, null);
             while (pendingRes.get(p.identity) == null && pendingRes.containsKey(p.identity)) {
                 try {
@@ -150,6 +151,7 @@ public class Connector extends Observable {
                     return pendingRes.remove(p.identity);
                 }
             }
+            t.interrupt();
             return pendingRes.remove(p.identity);
         }
         return null;

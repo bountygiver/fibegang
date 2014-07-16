@@ -26,7 +26,7 @@ public class RoomActivity extends Activity implements TagsFragment.OnFragmentInt
         this.setTitle(currentRoom.getTitle());
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new TagsFragment())
+                    .add(R.id.roomTagFrame, new TagsFragment())
                     .commit();
         }
     }
