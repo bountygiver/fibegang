@@ -1,3 +1,5 @@
+Version: alpha 0.0.2 
+
 PACKET SEND FROM CLIENT TO SERVER
 {
 	"sessionid"  : int,
