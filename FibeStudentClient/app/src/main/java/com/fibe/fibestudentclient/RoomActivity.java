@@ -50,9 +50,8 @@ public class RoomActivity extends Activity implements TagsFragment.OnFragmentInt
     public void BackToRoom() {
         TagsFragment f = new TagsFragment();
         FragmentTransaction t = getFragmentManager().beginTransaction();
-        getFragmentManager().popBackStack(null, getFragmentManager().POP_BACK_STACK_INCLUSIVE);
+        getFragmentManager().popBackStackImmediate();
         t.replace(R.id.roomTagFrame, f);
-        t.addToBackStack(null);
         t.commit();
         mBtnPing.setVisibility(View.VISIBLE);
     }

@@ -8,11 +8,11 @@
     <string name="labelConnectTo">Enter server address:</string>
     <string name="btnConnect">Connect</string>
     <string name="prompt_username">Username</string>
-    <string name="title_activity_class_selector">ClassSelectorActivity</string>
+    <string name="title_activity_class_selector">Classrooms</string>
     <string name="class_selector_refresh">Refresh</string>
-    <string name="title_activity_room">RoomActivity</string>
+    <string name="title_activity_room">Room</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="btnEnqueue">Make queue request</string>
+    <string name="btnEnqueue">Join Queue</string>
     <string name="labelTalking">Talking:</string>
     <string name="btnTalkStop">Stop</string>
     <string name="btnCancelRequest">Cancel Request</string>

@@ -112,36 +112,43 @@ public class TalkSession extends Observable implements Observer {
         }
         NotifyPayload n = (NotifyPayload) o;
         Connector conn = (Connector) observable;
-        if (n.identity != packetIdentity || !n.type.equals("permit")) return;
-        observable.deleteObserver(this);
+        if (n.identity != packetIdentity) return;
 
-        try {
-            audioSender = new DatagramSocket();
-        } catch (SocketException e) {
-            Log.d("AUDIO_DEBUGGING", "Failed to create socket!");
-            e.printStackTrace();
+        if (n.type.equals("permit")) {
+
+            try {
+                audioSender = new DatagramSocket();
+            } catch (SocketException e) {
+                Log.d("AUDIO_DEBUGGING", "Failed to create socket!");
+                e.printStackTrace();
+                setChanged();
+                notifyObservers("ERROR");
+                return;
+            }
+            InetAddress ep = null;
+            try {
+                ep = InetAddress.getByName(conn.getEndpoint());
+            } catch (UnknownHostException e) {
+                Log.d("AUDIO_DEBUGGING", "Failed to get InetAddress!");
+                e.printStackTrace();
+                setChanged();
+                notifyObservers("ERROR");
+                return;
+            }
+            audioSender.connect(ep, Connector.CONNECTIONPORT);
+            audioSessionId = ((Double) n.payload.get("sessionid")).intValue();
+            Log.d("AUDIO_DEBUGGING", "Connected!");
+
+            StartTalking(conn.sessionId);
+
             setChanged();
-            notifyObservers("ERROR");
-            return;
-        }
-        InetAddress ep = null;
-        try {
-            ep = InetAddress.getByName(conn.getEndpoint());
-        } catch (UnknownHostException e) {
-            Log.d("AUDIO_DEBUGGING", "Failed to get InetAddress!");
-            e.printStackTrace();
+            notifyObservers("START_TALKING");
+        } else if (n.type.equals("cancel") || n.type.equals("revoke")) {
+            StopTalking();
+            conn.deleteObserver(this);
             setChanged();
-            notifyObservers("ERROR");
-            return;
+            notifyObservers("CANCELED");
         }
-        audioSender.connect(ep, Connector.CONNECTIONPORT);
-        audioSessionId = ((Double) n.payload.get("sessionid")).intValue();
-        Log.d("AUDIO_DEBUGGING", "Connected!");
-
-        StartTalking(conn.sessionId);
-
-        setChanged();
-        notifyObservers("START_TALKING");
     }
 
     private void StartTalking(final int sid) {
@@ -197,6 +204,7 @@ public class TalkSession extends Observable implements Observer {
                 recorder.stop();
                 recorder.release();
                 recorder = null;
+                canceled = true;
                 Payload p = new Payload();
                 p.request = "cancel";
                 p.sessionid = sid;

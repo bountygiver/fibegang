@@ -25,9 +25,17 @@ public class Tags {
 
     static {
         // Add 3 sample items.
-        addItem(new TagItem("1", "Basic Tag 1"));
-        addItem(new TagItem("2", "Question"));
-        addItem(new TagItem("3", "Example"));
+        addItem(new TagItem("1", "C"));
+        addItem(new TagItem("2", "Memory Leak"));
+        addItem(new TagItem("3", "Sockets"));
+        addItem(new TagItem("4", "Severs"));
+        addItem(new TagItem("5", "Clients"));
+        addItem(new TagItem("6", "Handshake"));
+        addItem(new TagItem("7", "Networking"));
+        addItem(new TagItem("8", "Assignment 4"));
+        addItem(new TagItem("9", "UDP"));
+        addItem(new TagItem("10", "TCP/IP"));
+        addItem(new TagItem("11", "Internet"));
     }
 
     private static void addItem(TagItem item) {

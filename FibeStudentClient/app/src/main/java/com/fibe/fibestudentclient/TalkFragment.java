@@ -64,12 +64,11 @@ public class TalkFragment extends Fragment implements Observer {
     }
 
     public void assignTalkSession(TalkSession ts) {
-        if (mTalkSession != null) mTalkSession.deleteObserver(this);
         try {
             mTalkSession = ts;
+            ts.addObserver(this);
             mTxtTags.setText(ts.getTagsString());
             mTxtClassName.setText("Requesting: " + ts.getRoomName());
-            mTalkSession.addObserver(this);
         } catch (Exception ex) {
 
         }
@@ -156,10 +155,26 @@ public class TalkFragment extends Fragment implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-        if (((String)o).equals("START_TALKING")) {
-            mReqFrame.setVisibility(View.GONE);
-            mTalkFrame.setVisibility(View.VISIBLE);
-            mTalkDest.setText("Talking: " + mTalkSession.getRoomName());
+        if (observable != mTalkSession) return;
+        final Object x = o;
+        final Observable obs = observable;
+        final TalkFragment thisFrag = this;
+        try {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (x.equals("START_TALKING")) {
+                        mReqFrame.setVisibility(View.GONE);
+                        mTalkFrame.setVisibility(View.VISIBLE);
+                        mTalkDest.setText("Talking: " + mTalkSession.getRoomName());
+                    } else if (x.equals("CANCELED")) {
+                        obs.deleteObserver(thisFrag);
+                        ((RoomActivity) thisFrag.getActivity()).BackToRoom();
+                    }
+                }
+            });
+        } catch (Exception ex) {
+
         }
     }
 

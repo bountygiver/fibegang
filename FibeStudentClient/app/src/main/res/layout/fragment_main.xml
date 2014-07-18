@@ -40,7 +40,8 @@
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
             android:id="@+id/txtAddress"
-            android:inputType="textUri" />
+            android:inputType="textUri"
+            android:text="hysw.org"/>
 
         <ProgressBar
             style="?android:attr/progressBarStyleHorizontal"

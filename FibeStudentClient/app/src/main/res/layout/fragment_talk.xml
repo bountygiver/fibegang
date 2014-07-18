@@ -22,56 +22,77 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/labelTalking"
-        android:id="@+id/textView" />
+        android:id="@+id/textView"
+        android:textColor="@color/font_face_color"/>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="16dp"
+            android:src="@drawable/speaking" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/txtTalkingDest"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:textColor="@color/font_face_color"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/labelTalkTime"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textColor="@color/font_face_color"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnStopTalking"
-            android:layout_gravity="center_horizontal" />
+            android:text="@string/btnTalkStop"
+            android:layout_gravity="center_horizontal"
+            style="@style/cancel_button" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/frameRequesting"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/classTalkSessionText"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/font_face_color"
+            android:layout_margin="16dp" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/tagText"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/font_face_color"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnCancelRequest"
             android:id="@+id/btnCancelRequest"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            style="@style/cancel_button" />
     </LinearLayout>
 
 </LinearLayout>

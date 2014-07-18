@@ -17,8 +17,7 @@
     <!-- TagListStyle styles -->
     <style name="TagListStyle" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">#ffffff</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:choiceMode">multipleChoice</item>
+        <item name="android:layout_height">16dp</item>
         <item name="android:background">#313131</item>
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">-20sp</item>
@@ -36,9 +35,25 @@
         <item name="android:layout_marginTop">12dp</item>
     </style>
 
+    <style name="cancel_button">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">#ff0000</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:layout_margin">3dp</item>
+    </style>
+
+    <style name="default_buttons">
+        <item name="android:background">#47C770</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_margin">15dp</item>
+    </style>
+
     <!-- Colours styles -->
     <color name="pressed_color">#47C770</color>
     <color name="default_color">#313131</color>
+    <color name="default_background">#272727</color>
+    <color name="font_face_color">#ffffff</color>
 
 
 </resources>
