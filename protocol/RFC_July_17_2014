@@ -1,0 +1,41 @@
+Surveys bounded by Group (Classroom)
+
+Student Operations:
+	- List Available Surveys 
+	- Pull Survey from list of Surveys:
+		- View
+		- Answer/Submit (By permission: Expired or Completed)
+
+Professor Operations:
+	- List current active Surveys
+	- Pull Survey from list of Surveys:
+		- File Transfer of Data
+
+	- Request Statistical Data of Multiple Choice
+		- Current Distribution
+		- Frequencies 
+
+	- Request Views
+	- Delete Survey from list of Surveys
+	- Add Survey to the list of Surveys
+
+Data included on a survey:
+
+	Timestamp
+	
+	Description
+
+	Survey question (Mark Down -> Optional image reference as attachment)
+	
+	Survey multiple choice options (list):
+		Mark Down
+	
+	Textbox:
+		Yes or No textbox
+
+Survey form:
+
+	Question
+	Image
+	Options
+	Text
