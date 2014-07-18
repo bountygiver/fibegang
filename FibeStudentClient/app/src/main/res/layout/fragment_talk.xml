@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     tools:context=".dummy.TalkFragment"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#272727">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -16,10 +17,12 @@
         android:id="@+id/frameTalking"
         android:visibility="gone">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/labelTalking"
+        android:id="@+id/textView" />
 
         <TextView
             android:layout_width="wrap_content"
