@@ -15,5 +15,6 @@
     <string name="btnEnqueue">Make queue request</string>
     <string name="labelTalking">Talking:</string>
     <string name="btnTalkStop">Stop</string>
+    <string name="btnCancelRequest">Cancel Request</string>
 
 </resources>

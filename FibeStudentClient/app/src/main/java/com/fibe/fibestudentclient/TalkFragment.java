@@ -7,6 +7,17 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.fibe.fibestudentclient.Items.Tags;
+
+import java.util.Observable;
+import java.util.Observer;
+
+import BackEnd.TalkSession;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,7 +28,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  *
  */
-public class TalkFragment extends Fragment {
+public class TalkFragment extends Fragment implements Observer {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,6 +37,11 @@ public class TalkFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public Button mCancelBtn, mCancelRequestBtn;
+    public TextView mTxtClassName, mTxtTags, mTalkDest;
+    public TalkSession mTalkSession;
+    public LinearLayout mTalkFrame, mReqFrame;
 
     private OnFragmentInteractionListener mListener;
 
@@ -46,8 +62,25 @@ public class TalkFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    public void assignTalkSession(TalkSession ts) {
+        if (mTalkSession != null) mTalkSession.deleteObserver(this);
+        try {
+            mTalkSession = ts;
+            mTxtTags.setText(ts.getTagsString());
+            mTxtClassName.setText("Requesting: " + ts.getRoomName());
+            mTalkSession.addObserver(this);
+        } catch (Exception ex) {
+
+        }
+    }
+
     public TalkFragment() {
         // Required empty public constructor
+    }
+
+    public void LinkTalkSession(TalkSession ts) {
+        mTalkSession = ts;
     }
 
     @Override
@@ -63,7 +96,38 @@ public class TalkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_talk, container, false);
+        View view = inflater.inflate(R.layout.fragment_talk, container, false);
+
+        mCancelBtn = (Button) view.findViewById(R.id.btnStopTalking);
+        mCancelRequestBtn = (Button) view.findViewById(R.id.btnCancelRequest);
+        mTxtClassName = (TextView) view.findViewById(R.id.classTalkSessionText);
+        mTxtTags = (TextView) view.findViewById(R.id.tagText);
+        mTalkDest = (TextView) view.findViewById(R.id.txtTalkingDest);
+        mReqFrame = (LinearLayout) view.findViewById(R.id.frameRequesting);
+        mTalkFrame = (LinearLayout) view.findViewById(R.id.frameTalking);
+
+        mCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTalkSession.CancelRequest();
+                ((RoomActivity) getActivity()).BackToRoom();
+            }
+        });
+
+        mCancelRequestBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTalkSession.CancelRequest();
+                ((RoomActivity) getActivity()).BackToRoom();
+            }
+        });
+
+        if (mTalkSession != null) {
+            mTxtTags.setText(mTalkSession.getTagsString());
+            mTxtClassName.setText("Requesting: " + mTalkSession.getRoomName());
+        }
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -90,6 +154,15 @@ public class TalkFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void update(Observable observable, Object o) {
+        if (((String)o).equals("START_TALKING")) {
+            mReqFrame.setVisibility(View.GONE);
+            mTalkFrame.setVisibility(View.VISIBLE);
+            mTalkDest.setText("Talking: " + mTalkSession.getRoomName());
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -104,5 +177,6 @@ public class TalkFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
 
 }

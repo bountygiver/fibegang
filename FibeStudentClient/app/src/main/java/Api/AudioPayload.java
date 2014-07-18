@@ -11,8 +11,8 @@ public class AudioPayload {
 
     byte[] payload;
 
-    public AudioPayload(byte[] audio, int session_id) {
-        ByteBuffer buf = ByteBuffer.allocate(4096);
+    public AudioPayload(byte[] audio, int session_id, int timestamp) {
+        ByteBuffer buf = ByteBuffer.allocate(audio.length+12);
         ByteBuffer flipper = ByteBuffer.allocate(4);
 
         String s = "a000";
@@ -22,7 +22,6 @@ public class AudioPayload {
         flipper.flip();
         buf.put(flipper.array());
 
-        int timestamp = (int) (System.currentTimeMillis() / 1000);
         flipper.clear();
         flipper.putInt(timestamp);
         flipper.flip();
@@ -31,6 +30,10 @@ public class AudioPayload {
         buf.put(audio);
 
         payload = buf.array();
+    }
+
+    public int getSize() {
+        return payload.length;
     }
 
     public DatagramPacket getPacket(DatagramSocket socket) {

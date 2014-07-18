@@ -35,16 +35,27 @@ public class Tags {
         ITEM_MAP.put(item.id, item);
     }
 
+    public static String[] getSelectedTagArray() {
+        List<String> sel = new ArrayList<String>();
+        for (TagItem ti : ITEMS) {
+            if (ti.isSelected) sel.add(ti.toString());
+        }
+        if (sel.size() == 0) return new String[0];
+        return sel.toArray(new String[sel.size()]);
+    }
+
     /**
      * A dummy item representing a piece of content.
      */
     public static class TagItem {
         public String id;
         public String content;
+        public boolean isSelected;
 
         public TagItem(String id, String content) {
             this.id = id;
             this.content = content;
+            isSelected = false;
         }
 
         @Override

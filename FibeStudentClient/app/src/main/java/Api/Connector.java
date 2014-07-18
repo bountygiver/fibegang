@@ -1,5 +1,6 @@
 package Api;
 
+import android.util.Log;
 import android.util.Xml;
 
 import org.apache.http.util.ByteArrayBuffer;
@@ -74,6 +75,19 @@ public class Connector extends Observable {
                         }
 
                         String s = new String(buf, 0, rp.getLength());
+
+                        Log.d("AUDIO_DEBUGGING", "Data received: " + s);
+                        try {
+                            NotifyPayload notifyPayload = NotifyPayload.Deserialize(s);
+
+                            if (notifyPayload.status.equals("notify")) {
+                                setChanged();
+                                notifyObservers(notifyPayload);
+                            }
+
+                        } catch (Exception e) {
+
+                        }
                         try {
                             ResponsePayload responsePayload = ResponsePayload.Deserialize(s);
 
@@ -84,18 +98,6 @@ public class Connector extends Observable {
                             {
                                 pendingRes.put(identity, responsePayload);
                             }
-                            continue;
-                        } catch (Exception e) {
-
-                        }
-                        try {
-                            NotifyPayload notifyPayload = NotifyPayload.Deserialize(s);
-
-                            if (notifyPayload.status.equals("notify")) {
-                                setChanged();
-                                notifyObservers(notifyPayload);
-                            }
-
                         } catch (Exception e) {
 
                         }
@@ -125,36 +127,42 @@ public class Connector extends Observable {
     }
 
     public ResponsePayload SendAndReceive(final Payload p) throws IOException {
-        boolean sent = Send(p);
-        if (sent) {
-            Thread t = new Thread(new Runnable() {
+        try {
+            int identity = rand.nextInt(Integer.MAX_VALUE);
+            while (identifierPool.contains(identity)) identity = rand.nextInt(Integer.MAX_VALUE);
+            p.identity = identity;
+            identifierPool.add(identity);
+            pendingRes.put(p.identity, null);
+            socket.send(p.getPacket(socket));
+        } catch (IOException e) {
+            pendingRes.remove(p.identity);
+            return null;
+        }
+        Thread t = new Thread(new Runnable() {
 
                 @Override
                 public void run() {
-                    try {
-                        Thread.sleep(10000);
-                        ResponsePayload timeout = new ResponsePayload();
-                        timeout.status = "failed";
-                        timeout.message = "Connection timeout!";
-                        pendingRes.put(p.identity, timeout);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-            t.start();
-            pendingRes.put(p.identity, null);
-            while (pendingRes.get(p.identity) == null && pendingRes.containsKey(p.identity)) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(10000);
+                    ResponsePayload timeout = new ResponsePayload();
+                    timeout.status = "failed";
+                    timeout.message = "Connection timeout!";
+                    pendingRes.put(p.identity, timeout);
                 } catch (InterruptedException e) {
-                    return pendingRes.remove(p.identity);
+                    e.printStackTrace();
                 }
             }
-            t.interrupt();
-            return pendingRes.remove(p.identity);
+        });
+        t.start();
+        while (pendingRes.get(p.identity) == null && pendingRes.containsKey(p.identity)) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                return pendingRes.remove(p.identity);
+            }
         }
-        return null;
+        t.interrupt();
+        return pendingRes.remove(p.identity);
     }
 
     public void ReleaseAwaiter(Payload p) {

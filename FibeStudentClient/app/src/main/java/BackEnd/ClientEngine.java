@@ -64,7 +64,7 @@ public class ClientEngine extends Observable {
             r = connector.SendAndReceive(p);
             if (r.status.equals("success"))
             {
-                connector.sessionId = sessionId = ((Double) r.payload.get("sessionid")).intValue() ;
+                connector.sessionId = sessionId = ((Double) r.payload.get("sessionid")).intValue();
                 return true;
             }
             else
@@ -137,7 +137,7 @@ public class ClientEngine extends Observable {
                         roomAvailable.add(new RoomItem(key, k.get(key)));
                 }
                 this.setChanged();
-                notifyObservers();
+                notifyObservers("LIST_COMPLETE");
                 return true;
             }
             else
@@ -166,7 +166,7 @@ public class ClientEngine extends Observable {
         if (connector != null) connector.FlushConnection();
         connector = null;
         this.setChanged();
-        this.notifyObservers();
+        this.notifyObservers("CONNECTION_END");
     }
 
     public String getError() {

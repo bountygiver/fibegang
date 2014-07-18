@@ -7,6 +7,7 @@ import android.media.MediaRecorder;
 import android.media.audiofx.AcousticEchoCanceler;
 import android.media.audiofx.NoiseSuppressor;
 import android.os.Build;
+import android.util.Log;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -38,16 +39,40 @@ public class TalkSession extends Observable implements Observer {
     private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;
     private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;
     private int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
+    private int AUDIOBUFFERSIZE = 1200;
 
     private int packetIdentity, audioSessionId;
+
+    public String[] getTags() {
+        return tags;
+    }
+
+    public String getTagsString() {
+        StringBuilder sb = new StringBuilder();
+        boolean st = false;
+        for (String s : tags) {
+            if (st) sb.append(", ");
+            sb.append(s);
+            st = true;
+        }
+        return sb.toString();
+    }
+
+    public String getRoomName() {
+        return room.getTitle();
+    }
+
     private String[] tags;
     private Room room;
     private DatagramSocket audioSender;
+
+    private Connector conn;
 
     public TalkSession(Room room, String[] tags, int sessionId, Connector conn) throws IOException {
         when = new Date();
         this.tags = tags;
         this.room = room;
+        this.conn = conn;
         isTalking = false;
 
         Payload p = Payload.makePayload("enqueue");
@@ -62,6 +87,7 @@ public class TalkSession extends Observable implements Observer {
         p.path[index] = "audio";
         p.sessionid = sessionId;
         conn.Send(p);
+        packetIdentity = p.identity;
         canceled = false;
         conn.addObserver(this);
     }
@@ -79,6 +105,7 @@ public class TalkSession extends Observable implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
+        Log.d("AUDIO_DEBUGGING", "Observed!");
         if (canceled) {
             observable.deleteObserver(this);
             return;
@@ -91,27 +118,30 @@ public class TalkSession extends Observable implements Observer {
         try {
             audioSender = new DatagramSocket();
         } catch (SocketException e) {
+            Log.d("AUDIO_DEBUGGING", "Failed to create socket!");
             e.printStackTrace();
             setChanged();
-            notifyObservers();
+            notifyObservers("ERROR");
             return;
         }
         InetAddress ep = null;
         try {
             ep = InetAddress.getByName(conn.getEndpoint());
         } catch (UnknownHostException e) {
+            Log.d("AUDIO_DEBUGGING", "Failed to get InetAddress!");
             e.printStackTrace();
             setChanged();
-            notifyObservers();
+            notifyObservers("ERROR");
             return;
         }
         audioSender.connect(ep, Connector.CONNECTIONPORT);
-        audioSessionId = (Integer) n.payload.get("sessionid");
+        audioSessionId = ((Double) n.payload.get("sessionid")).intValue();
+        Log.d("AUDIO_DEBUGGING", "Connected!");
 
         StartTalking(conn.sessionId);
 
         setChanged();
-        notifyObservers();
+        notifyObservers("START_TALKING");
     }
 
     private void StartTalking(final int sid) {
@@ -124,35 +154,44 @@ public class TalkSession extends Observable implements Observer {
                 AcousticEchoCanceler.create(id);
             }
 
+            public volatile int ts = 0;
+
             @Override
             public void run() {
                 recorder = new AudioRecord(MediaRecorder.AudioSource.MIC
                         , sampleRate, channelConfig, audioFormat, minBufSize);
-                byte[] buffer = new byte[minBufSize];
+                byte[] buffer = new byte[AUDIOBUFFERSIZE];
                 DatagramPacket packet;
                 SuppressAudio(recorder);
                 recorder.startRecording();
+                isTalking = true;
 
                 while(isTalking) {
                     //reading data from MIC into buffer
-                    minBufSize = recorder.read(buffer, 0, buffer.length);
-                    final byte[] buf = buffer;
-                    //putting buffer in the packet
-                    packet = new DatagramPacket (buffer,buffer.length,audioSender.getInetAddress(),audioSender.getPort());
+                    recorder.read(buffer, 0, buffer.length);
+                    final byte[] buf = buffer.clone();
 
+                    ts = ts + 1;
+                    Log.d("AUDIO_DEBUGGING", "Audio recorded!"+ts);
                     Runnable r = new Runnable() {
+
+                        int cts = ts;
                         @Override
                         public void run() {
-                            AudioPayload ap = new AudioPayload(buf, audioSessionId);
+
+                            AudioPayload ap = new AudioPayload(buf, audioSessionId, cts);
                             try {
-                                audioSender.send(ap.getPacket(audioSender));
+                                DatagramPacket dp = ap.getPacket(audioSender);
+                                audioSender.send(dp);
+                                Log.d("AUDIO_DEBUGGING", "Audio sent!" + dp.getLength()
+                                        + "bytes! Timestamp: " + cts);
                             } catch (IOException e) {
                                 e.printStackTrace();
                                 System.out.println("Skipped");
                             }
                         }
                     };
-                    r.run();
+                    new Thread(r).start();
 
                 }
                 recorder.stop();
@@ -181,10 +220,28 @@ public class TalkSession extends Observable implements Observer {
         new Thread(r).start();
     }
 
-
-
     public void StopTalking() {
         isTalking = false;
         canceled = true;
+    }
+
+    public void CancelRequest() {
+        StopTalking();
+        conn.deleteObserver(this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Payload p = Payload.makePayload("cancel");
+                p.sessionid = conn.sessionId;
+                p.path = new String[room.getPath().length + 1];
+                int index = 0;
+                for (String s : room.getPath()) {
+                    p.path[index] = s;
+                    index += 1;
+                }
+                p.path[index] = "audio";
+                conn.Send(p);
+            }
+        }).start();
     }
 }

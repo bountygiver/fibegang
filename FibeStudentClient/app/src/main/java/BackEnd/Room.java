@@ -1,5 +1,8 @@
 package BackEnd;
 
+import android.util.Log;
+
+import java.io.Console;
 import java.io.IOException;
 import java.util.List;
 import java.util.Observable;
@@ -49,15 +52,17 @@ public class Room extends Observable {
 
                 try {
                     currentAsk = new TalkSession(thisRoom, tags, sessionId, connector);
+                    thisRoom.setChanged();
+                    thisRoom.notifyObservers("SESSION_CREATED");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         };
-        r.run();
+        new Thread(r).start();
         isAsking = true;
         this.setChanged();
-        notifyObservers();
+        notifyObservers("SUCCESS_ADD");
         return currentAsk;
     }
 
@@ -66,6 +71,7 @@ public class Room extends Observable {
         this.connector = connector;
         TagsAvailable = new String[] {"Demo tag", "Question", "Assignment", "Others"};
         this.sessionId = sessionId;
+        Title = path[path.length - 1];
     }
 
     public boolean cancelRequest() {
