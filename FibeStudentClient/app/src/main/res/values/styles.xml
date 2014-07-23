@@ -21,7 +21,7 @@
         <item name="android:background">#313131</item>
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">-20sp</item>
-
+        <item name="android:textSize">24dp</item>
     </style>
 
     <!-- ClickerOption styles -->
