@@ -1,0 +1,169 @@
+$fibe-green: #45c671;
+ $dark-grey: #1c1c1c;
+$light-grey: #242424;
+$font-stack: Roboto, Helvetica, Arial, sans-serif;
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { height: 100%; }
+
+body {
+  background-color: $dark-grey;
+  font: 16px/18px $font-stack;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+nav {
+  background-color: $fibe-green;
+  display: table;
+  padding: 1em 3em;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 0;
+
+  a {
+    color: #fff;
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  #logo {
+    font: 2em Abel, sans-serif;
+  }
+
+  ul {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+
+    li {
+      display: inline-block;
+      margin-left: 1.5em;
+    }
+  }
+}
+
+header#header {
+  background: url(/images/blogpost1.png) no-repeat;
+  background-size: cover;
+  color: #fff;
+  height: 100%;
+  position: relative;
+  text-align: center;
+  z-index: 1000;
+
+  &::before {
+    background-color: $fibe-green;
+    content: " ";
+    height: 100%;
+    left: 0;
+    opacity: 0.75;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .header-content {
+    height: 20em;
+    margin-top: -10em;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+  }
+
+  hgroup {
+    margin-bottom: 4em;
+
+    h1 {
+      font: 3em Abel, sans-serif;
+      line-height: 2em;
+    }
+
+    h2 {
+      font-weight: 300;
+    }
+  }
+
+  form {
+    label {
+      font-size: 1.25em;
+    }
+
+    input {
+      background-color: #fff;
+      border: 1px solid $fibe-green;
+      border-radius: 5px;
+      display: block;
+      font: 1.25em $font-stack;
+      margin: 0.5em auto 1em auto;
+      padding: 0.25em 0.75em;
+    }
+
+    button {
+      background-color: #fff;
+      border-radius: 5px;
+      border: 0;
+      color: $fibe-green;
+      cursor: pointer;
+      font: 1.15em $font-stack;
+      padding: 0.25em 0.75em;
+    }
+  }
+
+  #header-down {
+    bottom: 1em;
+    color: #fff;
+    position: absolute;
+  }
+}
+
+body > section {
+  color: #fff;
+  min-height: 100%;
+  text-align: center;
+
+  h3 {
+    color: #fff;
+    font-size: 2em;
+    font-weight: 300;
+    margin-bottom: 2em;
+  }
+
+  .wrapper {
+    padding: 7em 3em 4em 3em;
+  }
+}
+
+#team {
+  .team-member {
+    display: inline-block;
+    margin: 1em 2em;
+    vertical-align: top;
+
+    img {
+      border: none;
+      border-radius: 50%;
+      margin-bottom: 1em;
+    }
+
+    h4, h5 {
+      font-weight: 300;
+    }
+  }
+}
+
+footer {
+  background-color: rgba($fibe-green, 0.5);
+  color: #fff;
+  text-align: center;
+  padding: 3em;
+}
