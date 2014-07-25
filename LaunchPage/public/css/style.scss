@@ -3,6 +3,17 @@ $fibe-green: #45c671;
 $light-grey: #242424;
 $font-stack: Roboto, Helvetica, Arial, sans-serif;
 
+@mixin background-gradient($start, $end) {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from($start), to($end));
+  background: -webkit-linear-gradient(top, $start, $end);
+  background: -moz-linear-gradient(top, $start, $end);
+  background: -o-linear-gradient(top, $start, $end);
+  background: linear-gradient(top, $start, $end);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$start', endColorstr='$end');
+  background-color: $start;
+}
+
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -19,6 +30,10 @@ body {
 
 a {
   text-decoration: none;
+}
+
+h2 {
+  font-weight: 300;
 }
 
 nav {
@@ -62,7 +77,7 @@ header#header {
   z-index: 1000;
 
   &::before {
-    background-color: $fibe-green;
+    @include background-gradient($fibe-green, $light-grey);
     content: " ";
     height: 100%;
     left: 0;
@@ -87,10 +102,6 @@ header#header {
       font: 3em Abel, sans-serif;
       line-height: 2em;
     }
-
-    h2 {
-      font-weight: 300;
-    }
   }
 
   form {
@@ -104,7 +115,7 @@ header#header {
       border-radius: 5px;
       display: block;
       font: 1.25em $font-stack;
-      margin: 0.5em auto 1em auto;
+      margin: 1em auto;
       padding: 0.25em 0.75em;
     }
 
@@ -116,13 +127,30 @@ header#header {
       cursor: pointer;
       font: 1.15em $font-stack;
       padding: 0.25em 0.75em;
+      transition: background-color 0.25s, color 0.25s;
+
+      &:hover {
+        background-color: $fibe-green;
+        color: #fff;
+      }
     }
   }
 
   #header-down {
-    bottom: 1em;
+    bottom: 0;
     color: #fff;
+    left: 0;
+    padding-bottom: 1em;
+    padding-top: 3em;
     position: absolute;
+    text-align: center;
+    transition: padding 0.1s ease-in;
+    width: 100%;
+
+    &:hover {
+      padding-bottom: 1.5em;
+      padding-top: 2.5em;
+    }
   }
 }
 
@@ -132,10 +160,13 @@ body > section {
   text-align: center;
 
   h3 {
+    border-bottom: 1px solid $fibe-green;
     color: #fff;
     font-size: 2em;
     font-weight: 300;
-    margin-bottom: 2em;
+    margin: 0 auto 1em;
+    padding-bottom: 1em;
+    width: 50%;
   }
 
   .wrapper {
@@ -149,10 +180,17 @@ body > section {
     margin: 1em 2em;
     vertical-align: top;
 
+    &:hover {
+      img {
+        box-shadow: 0 0 0 5px $fibe-green;
+      }
+    }
+
     img {
       border: none;
       border-radius: 50%;
       margin-bottom: 1em;
+      transition: box-shadow 0.25s;
     }
 
     h4, h5 {

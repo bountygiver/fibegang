@@ -32,19 +32,21 @@
     <div class="header-content">
       <hgroup>
         <h1>fibe</h1>
-        <h2>Some sort of lame slogan</h2>
+        <h2>Some sort of slogan here</h2>
       </hgroup>
 
-      <form class="form-inline" role="form">
-        <div class="form-group">
-          <label class="sr-only" for="email">We're launching soon.</label>
-          <input name="email" type="email" id="email" placeholder="Enter your email">
-        </div>
-        <button id="submit" type="submit" class="button">Notify me</button>
-      </form>
+      <div class="notification">
+        <form role="form">
+          <div class="form-group">
+            <label class="sr-only" for="email">We're launching soon.</label>
+            <input name="email" type="email" id="email" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+          </div>
+          <button id="submit" type="submit" class="button">Notify me</button>
+        </form>
+      </div>
     </div>
 
-    <a href="#about" id="header-down">↓</a>
+    <a href="#about" id="header-down">Learn more<br>↓</a>
   </header>
 
   <section id="about">
@@ -105,6 +107,10 @@
   <section id="contact">
     <div class="wrapper">
       <h3>Get in touch!</h3>
+
+      <a href="#" title="">Email</a>
+      <a href="#" title="">Facebook</a>
+      <a href="#" title="">Twitter</a>
     </div>
   </section>
 
@@ -112,16 +118,6 @@
     &copy; 2014 fibe
   </footer>
 
-  <script type="text/javascript">
-    $('#submit').click(function (event) {
-      event.preventDefault();
-      $.post('/', { email: $('#email').val() }, function (result) {
-        if (result)
-          alert('Thank you for your interest! You will be notified once we complete the product.');
-        else
-          alert('An error occurred. Please try again.');
-      });
-    });
-  </script>
+  <script src="/js/script.js"></script>
 </body>
 </html>
