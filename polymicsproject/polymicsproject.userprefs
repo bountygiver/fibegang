@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="polymicsproject/polymicsprojectViewController.cs">
+    <Files>
+      <File FileName="polymicsproject/Codes/Api.cs" Line="7" Column="26" />
+      <File FileName="polymicsproject/Codes/FibeClient.cs" Line="188" Column="18" />
+      <File FileName="polymicsproject/Main.cs" Line="1" Column="1" />
+      <File FileName="polymicsproject/AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="polymicsproject/MainForm.cs" Line="2" Column="1" />
+      <File FileName="polymicsproject/polymicsprojectViewController.cs" Line="29" Column="24" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
