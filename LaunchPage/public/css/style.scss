@@ -214,8 +214,8 @@ article {
     top: 117px;
     transition: opacity 0.25s;
     width: 180px;
-    // -webkit-animation: pulse 4s infinite;
-    // animation: pulse 4s infinite;
+    -webkit-animation: pulse 5s infinite;
+    animation: pulse 5s infinite;
   }
 
   #show-form {
@@ -293,11 +293,11 @@ article {
 
 @keyframes pulse {
   0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.2); }
-  50% { box-shadow: 0 0 0 8px #787878; }
+  50% { box-shadow: 0 0 10px 5px #787878; }
   100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.2); }
 }
 @-webkit-keyframes pulse {
   0% { -webkit-box-shadow: 0 0 0 0 rgba(255,255,255,0.2); }
-  50% { -webkit-box-shadow: 0 0 0 8px #787878; }
+  50% { -webkit-box-shadow: 0 0 10px 5px #787878; }
   100% { -webkit-box-shadow: 0 0 0 0 rgba(255,255,255,0.2); }
 }
