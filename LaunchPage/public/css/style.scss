@@ -28,6 +28,10 @@ body {
   height: 100%;
 }
 
+::selection {
+  background: $fibe-green;
+}
+
 a {
   text-decoration: none;
 }
@@ -160,8 +164,72 @@ article {
     left: 30px;
   }
 
-  .notification {
+  .phone-mic-green {
+    background: url(/images/mic-green.png) no-repeat;
+    background-size: contain;
+    margin: 4em auto 3em;
+    width: 180px;
+    height: 180px;
+  }
+
+  .phone-mic {
+    background: url(/images/mic-grey.png) no-repeat;
+    background-size: contain;
+    position: absolute;
+    top: 4em;
+    left: 50%;
+    margin-left: -90px;
+    transition: opacity 0.25s;
+    opacity: 1;
+    width: 180px;
+    height: 180px;
+  }
+
+  #show-form {
+    background: $fibe-green;
+    border-radius: 3px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    padding: 0.35em 0.6em;
     text-align: center;
+    transition: box-shadow 0.25s, transform 0.25s;
+    width: 180px;
+
+    &:hover {
+      box-shadow: 0 2px 0 darken($fibe-green, 25%);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      box-shadow: none;
+      transform: translateY(1px);
+    }
+  }
+
+  .notification {
+    display: none;
+    text-align: center;
+
+    input {
+      display: inline-block;
+      margin: 0 auto;
+      width: 180px;
+      vertical-align: top;
+    }
+
+    button {
+      background: $fibe-green;
+      display: inline-block;
+      width: 30px;
+      text-indent: -3000em;
+      vertical-align: top;
+    }
+
+    h2 {
+      font-size: 1.2em;
+      line-height: 1.5em;
+    }
   }
 }
 
