@@ -107,6 +107,14 @@ article {
         text-indent: -3000em;
         width: 2.5em;
       }
+
+      a#fb { background: url(/images/social/fb.png) no-repeat; }
+
+      a#tw { background: url(/images/social/tw.png) no-repeat; }
+
+      a#gplus { background: url(/images/social/tw.png) no-repeat; }
+
+      a#email { background: url(/images/social/fb.png) no-repeat; }
     }
   }
 
@@ -206,8 +214,8 @@ article {
     top: 117px;
     transition: opacity 0.25s;
     width: 180px;
-    -webkit-animation: pulse 4s infinite;
-    animation: pulse 4s infinite;
+    // -webkit-animation: pulse 4s infinite;
+    // animation: pulse 4s infinite;
   }
 
   #show-form {
@@ -259,6 +267,7 @@ article {
     h2 {
       font-size: 1.2em;
       line-height: 1.5em;
+      margin-top: -1.5em;
     }
   }
 }
@@ -274,6 +283,7 @@ article {
       margin-top: 3em;
       position: static;
     }
+
   }
 
   .phone { display: none; }
