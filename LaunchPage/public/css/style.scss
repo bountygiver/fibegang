@@ -1,4 +1,5 @@
-$fibe-green: #45c671;
+ $highlight:  #29B7ED;
+$fibe-green: #47c770;
  $dark-grey: #1c1c1c;
 $light-grey: #242424;
 $font-stack: Roboto, Helvetica, Arial, sans-serif;
@@ -29,7 +30,7 @@ body {
 }
 
 ::selection {
-  background: $fibe-green;
+  background: $highlight;
 }
 
 a {
@@ -37,17 +38,18 @@ a {
 }
 
 h2 {
+  line-height: 1.5em;
   font-weight: 300;
 }
 
 article {
-  background: url(/images/office3.png) no-repeat;
+  background: url(/images/promo.png) no-repeat;
   background-size: cover;
   color: #fff;
   height: 100%;
 
   &::before {
-    @include background-gradient($fibe-green, $light-grey);
+    @include background-gradient($highlight, $light-grey);
     content: " ";
     height: 100%;
     left: 0;
@@ -60,20 +62,32 @@ article {
 
   .wrapper {
     height: 100%;
-    margin: 0 auto;
     position: relative;
-    width: 80%;
+    width: 100%;
     z-index: 1000;
+  }
+
+  .content {
+    display: table;
+    height: 100%;
+    margin: 0 auto;
+    width: 80%;
   }
 
   .info,
   .demo {
-    float: left;
-    width: 50%;
+    display: table-cell;
+    height: 100%;
+    vertical-align: top;
+  }
+
+  .demo {
+    width: 350px;
   }
 
   .info {
     padding-top: 2em;
+    max-width: 50%;
 
     h1 {
       font: 3.5em Abel, sans-serif;
@@ -82,7 +96,6 @@ article {
 
     .social {
       bottom: 3.5em;
-      left: 0;
       position: absolute;
 
       a {
@@ -98,7 +111,7 @@ article {
   }
 
   .mobile-notification {
-    border-top: 1px solid $fibe-green;
+    border-top: 1px solid $highlight;
     display: none;
     margin-top: 2em;
     padding-top: 2em;
@@ -113,16 +126,16 @@ article {
 
     input {
       background-color: #fff;
-      border: 1px solid $fibe-green;
+      border: 1px solid $highlight;
       border-radius: 5px;
       display: block;
-      font: 1.25em $font-stack;
+      font: 300 1.25em $font-stack;
       margin: 1em 0;
       padding: 0.25em 0.75em;
       transition: box-shadow 0.25s;
 
       &:focus {
-        box-shadow: 0 0 5px $fibe-green;
+        box-shadow: 0 0 5px $highlight;
         outline: none;
       }
     }
@@ -131,14 +144,14 @@ article {
       background-color: #fff;
       border-radius: 5px;
       border: 0;
-      color: $fibe-green;
+      color: $highlight;
       cursor: pointer;
       font: 1.15em $font-stack;
       padding: 0.25em 0.75em;
       transition: background-color 0.25s, color 0.25s;
 
       &:hover {
-        background-color: $fibe-green;
+        background-color: $highlight;
         color: #fff;
       }
     }
@@ -152,7 +165,6 @@ article {
   margin-top: -300px;
   position: absolute;
   top: 50%;
-  right: 0;
   width: 300px;
 
   .phone-content {
@@ -164,10 +176,20 @@ article {
     left: 30px;
   }
 
+  h1 {
+    color: $fibe-green;
+    font-size: 1.25em;
+    font-weight: 300;
+    line-height: 1.5em;
+    margin-top: 1.25em;
+    text-align: center;
+  }
+
   .phone-mic-green {
     background: url(/images/mic-green.png) no-repeat;
     background-size: contain;
-    margin: 4em auto 3em;
+    border-radius: 100%;
+    margin: 2em auto 3em;
     width: 180px;
     height: 180px;
   }
@@ -175,14 +197,17 @@ article {
   .phone-mic {
     background: url(/images/mic-grey.png) no-repeat;
     background-size: contain;
-    position: absolute;
-    top: 4em;
+    border-radius: 100%;
+    height: 180px;
     left: 50%;
     margin-left: -90px;
-    transition: opacity 0.25s;
     opacity: 1;
+    position: absolute;
+    top: 117px;
+    transition: opacity 0.25s;
     width: 180px;
-    height: 180px;
+    -webkit-animation: pulse 4s infinite;
+    animation: pulse 4s infinite;
   }
 
   #show-form {
@@ -191,10 +216,12 @@ article {
     cursor: pointer;
     display: block;
     margin: 0 auto;
-    padding: 0.35em 0.6em;
+    padding: 0.6em 0.6em;
+    position: relative;
     text-align: center;
     transition: box-shadow 0.25s, transform 0.25s;
-    width: 180px;
+    width: 220px;
+    z-index: 100;
 
     &:hover {
       box-shadow: 0 2px 0 darken($fibe-green, 25%);
@@ -210,8 +237,10 @@ article {
   .notification {
     display: none;
     text-align: center;
+    z-index: 0;
 
     input {
+      border: 1px solid $fibe-green;
       display: inline-block;
       margin: 0 auto;
       width: 180px;
@@ -240,8 +269,25 @@ article {
     width: 100%;
 
     .mobile-notification { display: block; }
+
+    .social {
+      margin-top: 3em;
+      position: static;
+    }
   }
 
   .phone { display: none; }
 
+}
+
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.2); }
+  50% { box-shadow: 0 0 0 8px #787878; }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.2); }
+}
+@-webkit-keyframes pulse {
+  0% { -webkit-box-shadow: 0 0 0 0 rgba(255,255,255,0.2); }
+  50% { -webkit-box-shadow: 0 0 0 8px #787878; }
+  100% { -webkit-box-shadow: 0 0 0 0 rgba(255,255,255,0.2); }
 }
