@@ -19,104 +19,52 @@
   <![endif]-->
 </head>
 <body>
-  <nav>
+  <!-- <nav>
     <a href="#header" id="logo">fibe</a>
     <ul>
       <li><a href="#about">About</a></li>
-      <li><a href="#team">Team</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-  </nav>
+  </nav> -->
 
-  <header id="header">
-    <div class="header-content">
-      <hgroup>
+  <article>
+    <div class="wrapper">
+      <div class="info">
         <h1>fibe</h1>
         <h2>Some sort of slogan here</h2>
-      </hgroup>
 
-      <div class="notification">
-        <form role="form">
-          <div class="form-group">
+        <div class="mobile-notification">
+          <form role="form">
             <label class="sr-only" for="email">We're launching soon.</label>
-            <input name="email" type="email" id="email" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+            <input name="email" type="email" id="mobile-email" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+            <button id="mobile-submit" type="submit" class="button">Notify me</button>
+          </form>
+        </div>
+
+        <div class="social">
+          <a href="#" title="">Facebook</a>
+          <a href="#" title="">Twitter</a>
+          <a href="#" title="">Email</a>
+        </div>
+      </div>
+
+      <div class="phone">
+
+        <div class="phone-content">
+          <div class="notification">
+            <form role="form">
+              <div class="form-group">
+                <label class="sr-only" for="email">We're launching soon.</label>
+                <input name="email" type="email" id="email" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+              </div>
+              <button id="submit" type="submit" class="button">Notify me</button>
+            </form>
           </div>
-          <button id="submit" type="submit" class="button">Notify me</button>
-        </form>
+        </div>
+
       </div>
     </div>
-
-    <a href="#about" id="header-down">Learn more<br>↓</a>
-  </header>
-
-  <section id="about">
-    <div class="wrapper">
-      <h3>About fibe</h3>
-      <p>Fibe is the future of communication in a large room.</p>
-    </div>
-  </section>
-
-  <section id="team">
-    <div class="wrapper">
-      <h3>Our team</h3>
-
-      <div class="team-member">
-        <img src="/images/person.jpg">
-        <h4>Jeff Wu</h4>
-        <h5>Dude</h5>
-      </div>
-
-      <div class="team-member">
-        <img src="/images/person.jpg">
-        <h4>Jeff Wu</h4>
-        <h5>Dude</h5>
-      </div>
-
-      <div class="team-member">
-        <img src="/images/person.jpg">
-        <h4>Jeff Wu</h4>
-        <h5>Dude</h5>
-      </div>
-
-      <div class="team-member">
-        <img src="/images/person.jpg">
-        <h4>Jeff Wu</h4>
-        <h5>Dude</h5>
-      </div>
-
-      <div class="team-member">
-        <img src="/images/person.jpg">
-        <h4>Jeff Wu</h4>
-        <h5>Dude</h5>
-      </div>
-
-      <div class="team-member">
-        <img src="/images/person.jpg">
-        <h4>Jeff Wu</h4>
-        <h5>Dude</h5>
-      </div>
-
-      <div class="team-member">
-        <img src="/images/person.jpg">
-        <h4>Jeff Wu</h4>
-        <h5>Dude</h5>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="wrapper">
-      <h3>Get in touch!</h3>
-
-      <a href="#" title="">Email</a>
-      <a href="#" title="">Facebook</a>
-      <a href="#" title="">Twitter</a>
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2014 fibe
-  </footer>
+  </article>
 
   <script src="/js/script.js"></script>
 </body>

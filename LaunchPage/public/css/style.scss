@@ -36,45 +36,11 @@ h2 {
   font-weight: 300;
 }
 
-nav {
-  background-color: $fibe-green;
-  display: table;
-  padding: 1em 3em;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 0;
-
-  a {
-    color: #fff;
-    display: table-cell;
-    vertical-align: middle;
-  }
-
-  #logo {
-    font: 2em Abel, sans-serif;
-  }
-
-  ul {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-
-    li {
-      display: inline-block;
-      margin-left: 1.5em;
-    }
-  }
-}
-
-header#header {
+article {
   background: url(/images/blogpost1.png) no-repeat;
   background-size: cover;
   color: #fff;
   height: 100%;
-  position: relative;
-  text-align: center;
-  z-index: 1000;
 
   &::before {
     @include background-gradient($fibe-green, $light-grey);
@@ -85,23 +51,55 @@ header#header {
     position: absolute;
     top: 0;
     width: 100%;
+    z-index: 0;
   }
 
-  .header-content {
-    height: 20em;
-    margin-top: -10em;
-    position: absolute;
-    top: 50%;
-    width: 100%;
+  .wrapper {
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
+    width: 80%;
+    z-index: 1000;
   }
 
-  hgroup {
-    margin-bottom: 4em;
+  .info,
+  .phone {
+    float: left;
+    width: 50%;
+  }
+
+  .info {
+    padding-top: 2em;
 
     h1 {
-      font: 3em Abel, sans-serif;
+      font: 3.5em Abel, sans-serif;
       line-height: 2em;
     }
+
+    .social {
+      bottom: 2em;
+      left: 0;
+      position: absolute;
+
+      a {
+        border: 1px solid #fff;
+        border-radius: 50%;
+        display: inline-block;
+        height: 2.5em;
+        margin-right: 1em;
+        text-indent: -3000em;
+        width: 2.5em;
+      }
+    }
+  }
+
+  .mobile-notification {
+    border-top: 1px solid $fibe-green;
+    display: none;
+    margin-top: 2em;
+    padding-top: 2em;
+
+    h2 { line-height: 1.5em; }
   }
 
   form {
@@ -115,8 +113,14 @@ header#header {
       border-radius: 5px;
       display: block;
       font: 1.25em $font-stack;
-      margin: 1em auto;
+      margin: 1em 0;
       padding: 0.25em 0.75em;
+      transition: box-shadow 0.25s;
+
+      &:focus {
+        box-shadow: 0 0 5px $fibe-green;
+        outline: none;
+      }
     }
 
     button {
@@ -135,73 +139,32 @@ header#header {
       }
     }
   }
+}
 
-  #header-down {
-    bottom: 0;
-    color: #fff;
-    left: 0;
-    padding-bottom: 1em;
-    padding-top: 3em;
-    position: absolute;
+.phone {
+  background: url(/images/nexus5.png) no-repeat center right;
+  background-size: contain;
+  height: 100%;
+
+  .phone-content {
+    // background: #fff;
+    // height: 720px;
+    // width: 400px;
+  }
+
+  .notification {
     text-align: center;
-    transition: padding 0.1s ease-in;
+  }
+}
+
+@media screen and (max-width: 600px) {
+
+  article .info {
     width: 100%;
 
-    &:hover {
-      padding-bottom: 1.5em;
-      padding-top: 2.5em;
-    }
-  }
-}
-
-body > section {
-  color: #fff;
-  min-height: 100%;
-  text-align: center;
-
-  h3 {
-    border-bottom: 1px solid $fibe-green;
-    color: #fff;
-    font-size: 2em;
-    font-weight: 300;
-    margin: 0 auto 1em;
-    padding-bottom: 1em;
-    width: 50%;
+    .mobile-notification { display: block; }
   }
 
-  .wrapper {
-    padding: 7em 3em 4em 3em;
-  }
-}
+  .phone { display: none; }
 
-#team {
-  .team-member {
-    display: inline-block;
-    margin: 1em 2em;
-    vertical-align: top;
-
-    &:hover {
-      img {
-        box-shadow: 0 0 0 5px $fibe-green;
-      }
-    }
-
-    img {
-      border: none;
-      border-radius: 50%;
-      margin-bottom: 1em;
-      transition: box-shadow 0.25s;
-    }
-
-    h4, h5 {
-      font-weight: 300;
-    }
-  }
-}
-
-footer {
-  background-color: rgba($fibe-green, 0.5);
-  color: #fff;
-  text-align: center;
-  padding: 3em;
 }
