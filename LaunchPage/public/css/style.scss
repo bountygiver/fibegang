@@ -219,11 +219,12 @@ article {
     }
 
     button {
-      background: $fibe-green;
+      background: $fibe-green url(/images/send.png) no-repeat center center;
       display: inline-block;
-      width: 30px;
+      height: 37px;
       text-indent: -3000em;
       vertical-align: top;
+      width: 37px;
     }
 
     h2 {
