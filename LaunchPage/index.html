@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:3000/ -->
+<html>
+<head>
+  <title>Polymics</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- stylesheets -->
+  <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+  <link href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/flipclock.css">
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+<style type="text/css"></style></head>
+<body><div id="StayFocusd-infobar" style="display: none; top: 14px;">
+    <img src="chrome-extension://laankejkbhbdhmipfmgcngdelahlfoji/common/img/eye_19x19_red.png">
+    <span id="StayFocusd-infobar-msg"></span>
+    <span id="StayFocusd-infobar-links">
+      <a id="StayFocusd-infobar-never-show">hide forever</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+      <a id="StayFocusd-infobar-hide">hide once</a>
+    </span>
+</div>
+  <article>
+    <div class="wrapper">
+      <div class="content">
+        <div class="info">
+          <h1>Polymics</h1>
+          <div id="summary">
+            <h2>Game changed. We are on a mission to turn your smartphone into a wireless microphone. Whatever event you attend, the power of voice will be in your hand...</h2>
+            <div id="launch">
+              <h2> We are going live in:</h2>
+            </div>
+            <div id="clock"></div>
+          </div>
+          <div class="mobile-notification">
+            <form id="gandalf-form" role="form">
+              <div class="sr-only" for="email">Stay tuned...<br>We are going live soon!</div>
+              <br><br>
+              <input name="email" type="email" id="mobile-email" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required="">
+              <button id="mobile-submit" type="submit" class="button">Notify me</button>
+            </form>
+          </div>
+          <div class="social">
+            <a href="mailto:polymicsproject@gmail.com" title="" id="em">Email</a>
+            <a href="http://localhost:3000/#" title="" id="gplus">Google+</a>
+            <a href="http://localhost:3000/#" title="" id="fb">Facebook</a>
+            <a href="http://localhost:3000/#" title="" id="tw">Twitter</a>
+          </div>
+        </div>
+        <div class="demo">
+          <div class="phone">
+            <div class="phone-content">
+              <h1 id="phone-info">Want us to keep you updated?<br></h1>
+              <div class="phone-mic-green"></div>
+              <div class="phone-mic"></div>
+              <a id="show-form">Join the conversation!</a>
+              <div class="notification">
+                <form role="form">
+                  <input name="email" type="email" id="email" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required="">
+                  <button id="submit" type="submit" class="button">Notify me</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+  <script src="js/jquery-2.1.1.min.js"></script>
+  <script src="js/flipclock/flipclock.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
