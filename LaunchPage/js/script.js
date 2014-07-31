@@ -26,7 +26,7 @@ $('#submit').click(function (event) {
 
 $('#mobile-submit').click(function (event) {
   event.preventDefault();
-  if (!/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}/.test($('#email').val()))
+  if (!/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}/.test($('#mobile-email').val()))
     return;
 
   $.post('create.php', { email: $('#mobile-email').val() }, function (result) {
