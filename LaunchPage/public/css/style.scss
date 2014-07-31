@@ -1,5 +1,5 @@
- $highlight:  #29B7ED;
 $fibe-green: #47c770;
+ $highlight: #29B7ED;
  $dark-grey: #1c1c1c;
 $light-grey: #242424;
 $font-stack: Roboto, Helvetica, Arial, sans-serif;
@@ -48,6 +48,16 @@ article {
   color: #fff;
   height: 100%;
 
+  #summary {
+    height: 12em;
+  }
+
+  #clock {
+    margin-top: 4em;
+    margin-left: -0.5em;
+    font-size: 1rem;
+  }
+
   &::before {
     @include background-gradient($highlight, $light-grey);
     content: " ";
@@ -72,6 +82,7 @@ article {
     height: 100%;
     margin: 0 auto;
     width: 80%;
+    max-width: 60em;
   }
 
   .info,
@@ -95,26 +106,33 @@ article {
     }
 
     .social {
-      bottom: 3.5em;
-      position: absolute;
+      margin-top: 12em;
+      margin-bottom: 2em;
+      min-width: 15em;
 
       a {
-        border: 1px solid #fff;
-        border-radius: 50%;
         display: inline-block;
-        height: 2.5em;
-        margin-right: 1em;
+        height: 2.2em;
+        width: 2.2em;
+        margin: 0.5em;
         text-indent: -3000em;
-        width: 2.5em;
+        background-size: 2.4em;
+        background-repeat: no-repeat;
+        border: 2px solid white;
+        border-radius: 2.2em;
+        background-position: -0.26em -0.26em;
+        transition: all 200ms ease;
+        -webkit-transition: all 200ms ease;
+
+        &:hover {
+          border-color: $fibe-green;
+        }
       }
 
-      a#fb { background: url(/images/social/fb.png) no-repeat; }
-
-      a#tw { background: url(/images/social/tw.png) no-repeat; }
-
-      a#gplus { background: url(/images/social/tw.png) no-repeat; }
-
-      a#email { background: url(/images/social/fb.png) no-repeat; }
+      a#fb { background-image: url(/images/social/fb.png); }
+      a#tw { background-image: url(/images/social/tw.png); }
+      a#gplus { background-image: url(/images/social/gplus.png); }
+      a#em { background-image: url(/images/social/email.png); }
     }
   }
 
@@ -166,6 +184,8 @@ article {
   }
 }
 
+#launch { padding-top: 2em }
+
 .phone {
   background: url(/images/nexus5.png) no-repeat center right;
   background-size: contain;
@@ -188,7 +208,7 @@ article {
     color: $fibe-green;
     font-size: 1.25em;
     font-weight: 300;
-    line-height: 1.5em;
+    line-height: 1.2em;
     margin-top: 1.25em;
     text-align: center;
   }
@@ -197,7 +217,7 @@ article {
     background: url(/images/mic-green.png) no-repeat;
     background-size: contain;
     border-radius: 100%;
-    margin: 2em auto 3em;
+    margin: 2.75em auto 3em;
     width: 180px;
     height: 180px;
   }
@@ -214,8 +234,8 @@ article {
     top: 117px;
     transition: opacity 0.25s;
     width: 180px;
-    -webkit-animation: pulse 5s infinite;
-    animation: pulse 5s infinite;
+    //-webkit-animation: pulse 5s infinite;
+    //animation: pulse 5s infinite;
   }
 
   #show-form {
@@ -241,7 +261,7 @@ article {
       transform: translateY(1px);
     }
   }
-
+  
   .notification {
     display: none;
     text-align: center;
@@ -262,6 +282,11 @@ article {
       text-indent: -3000em;
       vertical-align: top;
       width: 37px;
+
+      &:hover {
+        background-color: $highlight;
+        color: #fff;
+      }
     }
 
     h2 {
@@ -272,12 +297,37 @@ article {
   }
 }
 
+@media screen and (max-width: 1200px) {
+  #clock { display: none }
+  #launch { display: none; }
+}
+
 @media screen and (max-width: 600px) {
+  article .info { padding-top: 0 }
 
   article .info {
     width: 100%;
+    
+    #summary { display: inline }
 
     .mobile-notification { display: block; }
+
+    input {
+      border: 1px solid $fibe-green;
+      display: inline-block;
+      margin: 0 auto;
+      width: 180px;
+      vertical-align: top;
+    }
+
+    button {
+      background: $fibe-green url(/images/send.png) no-repeat center center;
+      display: inline-block;
+      height: 37px;
+      text-indent: -3000em;
+      vertical-align: baseline;
+      width: 37px;
+    }
 
     .social {
       margin-top: 3em;

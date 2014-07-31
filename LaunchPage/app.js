@@ -32,7 +32,7 @@ app.post('/', function (req, res) {
   if (req.body.email)
     fs.appendFile('emails.txt', req.body.email + '\r\n');
 
-  res.json(!!req.body.email);
+  res.json(req.body.email !== undefined);
 });
 
 /// catch 404 and forward to error handler
