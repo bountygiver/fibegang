@@ -49,6 +49,41 @@ body {
   }
 }
 
+.download { display: none; }
+
+.ribbon {
+  background-color: #a00;
+  overflow: hidden;
+  white-space: nowrap;
+  /* top left corner */
+  position: fixed;
+  right: -50px;
+  top: 40px;
+  z-index: 5;
+  /* 45 deg ccw rotation */
+  -webkit-transform: rotate(45deg);
+     -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+       -o-transform: rotate(45deg);
+          transform: rotate(45deg);
+  /* shadow */
+  -webkit-box-shadow: 0 0 10px #888;
+     -moz-box-shadow: 0 0 10px #888;
+          box-shadow: 0 0 10px #888;
+}
+
+.ribbon a {
+  border: 1px solid #faa;
+  color: #fff;
+  display: block;
+  margin: 1px 0;
+  padding: 10px 50px;
+  text-align: center;
+  text-decoration: none;
+  /* shadow */
+  text-shadow: 0 0 5px #444;
+}
+
 ::selection {
   background: $highlight;
 }
@@ -253,30 +288,6 @@ article {
     //-webkit-animation: pulse 5s infinite;
     //animation: pulse 5s infinite;
   }
-
-  #show-form {
-    background: $fibe-green;
-    border-radius: 3px;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto;
-    padding: 0.6em 0.6em;
-    position: relative;
-    text-align: center;
-    transition: box-shadow 0.25s, transform 0.25s;
-    width: 220px;
-    z-index: 100;
-
-    &:hover {
-      box-shadow: 0 2px 0 darken($fibe-green, 25%);
-      transform: translateY(-2px);
-    }
-
-    &:active {
-      box-shadow: none;
-      transform: translateY(1px);
-    }
-  }
   
   .notification {
     display: none;
@@ -313,6 +324,30 @@ article {
   }
 }
 
+#show-form, .download > a {
+  background: $fibe-green;
+  border-radius: 3px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  padding: 0.6em 0.6em;
+  position: relative;
+  text-align: center;
+  transition: box-shadow 0.25s, transform 0.25s;
+  width: 220px;
+  z-index: 100;
+
+  &:hover {
+    box-shadow: 0 2px 0 darken($fibe-green, 25%);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    box-shadow: none;
+    transform: translateY(1px);
+  }
+}
+
 @media screen and (max-width: 1200px) {
   #clock { display: none }
   #launch { display: none; }
@@ -322,6 +357,9 @@ article {
 }
 
 @media screen and (max-width: 600px) {
+  .ribbon {
+    display: none;
+  }
   #gandalf-form{
     text-align: center;
   }
@@ -332,6 +370,7 @@ article {
     
     #summary { display: inline;
       text-align: center;
+      font-size: 90%;
     }
 
     h1 {
@@ -368,6 +407,12 @@ article {
   .sr-only{text-align:center; font: 16px/18px $font-stack; font-weight: 300;}
   .phone { display: none; }
 
+  .download {
+    display: inline-block;
+    width: 100%;
+    margin-top: 2em;
+    a { text-align: center; color: white }
+  }
 }
 
 
