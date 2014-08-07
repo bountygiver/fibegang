@@ -1,0 +1,37 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="polymicsproject/Codes/FibeClient.cs">
+    <Files>
+      <File FileName="polymicsproject/Codes/Api.cs" Line="40" Column="40" />
+      <File FileName="polymicsproject/LoginPageViewController.cs" Line="4" Column="4" />
+      <File FileName="polymicsproject/LoginPageViewController.designer.cs" Line="1" Column="1" />
+      <File FileName="polymicsproject/Main.cs" Line="1" Column="1" />
+      <File FileName="polymicsproject/Codes/FibeClient.cs" Line="64" Column="64" />
+      <File FileName="polymicsproject/RoomSelectController.cs" Line="5" Column="5" />
+      <File FileName="polymicsproject/Codes/Enities.cs" Line="10" Column="10" />
+      <File FileName="polymicsproject/InClassController.cs" Line="17" Column="17" />
+      <File FileName="polymicsproject/LoadSpinner.cs" Line="20" Column="20" />
+      <File FileName="polymicsproject/InQueueViewController.cs" Line="19" Column="19" />
+      <File FileName="polymicsproject/Info.plist" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="polymicsproject" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="ComponentReferenceFolder" expanded="True" />
+            <Node name="Codes" expanded="True">
+              <Node name="FibeClient.cs" selected="True" />
+            </Node>
+            <Node name="Resources" expanded="True" />
+            <Node name="LoginPageViewController.cs" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
